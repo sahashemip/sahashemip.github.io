@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1400" height="420" viewBox="0 0 1400 420" role="img" aria-labelledby="title desc">
+<title id="title">Research Timeline — Arsalan Hashemi</title>
+<desc id="desc">Horizontal graphical abstract summarizing research roles from 2016 to present.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="40" y="52" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700" fill="#111111">Arsalan Hashemi — Research Timeline</text>
+<text x="40" y="78" font-family="Segoe UI,Arial,sans-serif" font-size="14" fill="#5a5f66">Computational Materials Science · Physics · Electrochemistry</text>
+<line x1="80" y1="120" x2="1320" y2="120" stroke="#cfd8cf" stroke-width="3" stroke-linecap="round"/>
+<line x1="80.0" y1="114" x2="80.0" y2="126" stroke="#cfd8cf" stroke-width="2"/>
+<text x="80.0" y="142" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">2016</text>
+<line x1="328.0" y1="114" x2="328.0" y2="126" stroke="#cfd8cf" stroke-width="2"/>
+<text x="328.0" y="142" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">2018</text>
+<line x1="576.0" y1="114" x2="576.0" y2="126" stroke="#cfd8cf" stroke-width="2"/>
+<text x="576.0" y="142" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">2020</text>
+<line x1="824.0" y1="114" x2="824.0" y2="126" stroke="#cfd8cf" stroke-width="2"/>
+<text x="824.0" y="142" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">2022</text>
+<line x1="1072.0" y1="114" x2="1072.0" y2="126" stroke="#cfd8cf" stroke-width="2"/>
+<text x="1072.0" y="142" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">2024</text>
+<line x1="1320.0" y1="114" x2="1320.0" y2="126" stroke="#cfd8cf" stroke-width="2"/>
+<text x="1320.0" y="142" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">2026</text>
+<line x1="1278.666666666676" y1="120" x2="1278.666666666676" y2="162" stroke="#8fcf8f" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="1278.666666666676" y="170" rx="10" ry="10" width="120" height="60" fill="#f8fdf8" stroke="#006400" stroke-width="1.5"/>
+<text x="1290.666666666676" y="190" font-family="Segoe UI,Arial,sans-serif" font-size="13.5" font-weight="700" fill="#006400">PostDoc — Computational Materials Science</text>
+<text x="1290.666666666676" y="206" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">Dept. of Physics, Prof. M. Karttunen — UEF, Finland</text>
+<text x="1290.666666666676" y="222" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#111111">ML models for macromolecules • Water purification & drug delivery</text>
+<line x1="1113.333333333324" y1="120" x2="1113.333333333324" y2="208" stroke="#8fcf8f" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="1113.333333333324" y="216" rx="10" ry="10" width="165.33333333335213" height="60" fill="#f8fdf8" stroke="#006400" stroke-width="1.5"/>
+<text x="1125.333333333324" y="236" font-family="Segoe UI,Arial,sans-serif" font-size="13.5" font-weight="700" fill="#006400">PostDoc — Computational Physics</text>
+<text x="1125.333333333324" y="252" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">Applied Physics, Prof. T. Ala-Nissilä — Aalto University, Finland</text>
+<text x="1125.333333333324" y="268" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#111111">AIMD + deep learning: NaCl ↔ graphene (EU GreenDiGi) • 2D heterostructures for single-atom catalysis</text>
+<line x1="968.6666666666761" y1="120" x2="968.6666666666761" y2="254" stroke="#8fcf8f" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="968.6666666666761" y="262" rx="10" ry="10" width="134.33333333332394" height="60" fill="#f8fdf8" stroke="#006400" stroke-width="1.5"/>
+<text x="980.6666666666761" y="282" font-family="Segoe UI,Arial,sans-serif" font-size="13.5" font-weight="700" fill="#006400">PostDoc — Computational Electrochemistry</text>
+<text x="980.6666666666761" y="298" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">Chemistry & Materials, Prof. K. Laasonen — Aalto University, Finland</text>
+<text x="980.6666666666761" y="314" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#111111">Outlier detection for solubility • HTVS for redox potential & solubility • Battery-tech collaborations</text>
+<a xlink:href="https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10.1002/chem.202400828" target="_blank"><rect x="1024.0" y="270" rx="8" ry="8" width="65" height="20" fill="#e8f4e8" stroke="#006400" stroke-width="1"/><text x="1056.5" y="284" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#006400">Article</text></a>
+<a xlink:href="https://pubs.rsc.org/en/content/articlehtml/2023/dd/d3dd00091e" target="_blank"><rect x="953.0" y="270" rx="8" ry="8" width="65" height="20" fill="#e8f4e8" stroke="#006400" stroke-width="1"/><text x="985.5" y="284" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#006400">Article</text></a>
+<a xlink:href="https://chemrxiv.org/engage/chemrxiv/article-details/67851a75fa469535b9ceafbd" target="_blank"><rect x="861.0" y="270" rx="8" ry="8" width="86" height="20" fill="#e8f4e8" stroke="#006400" stroke-width="1"/><text x="904.0" y="284" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#006400">Manuscript</text></a>
+<line x1="658.6666666666761" y1="120" x2="658.6666666666761" y2="300" stroke="#8fcf8f" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="658.6666666666761" y="308" rx="10" ry="10" width="299.66666666664787" height="60" fill="#f8fdf8" stroke="#006400" stroke-width="1.5"/>
+<text x="670.6666666666761" y="328" font-family="Segoe UI,Arial,sans-serif" font-size="13.5" font-weight="700" fill="#006400">Research Assistant — Computational Electrochemistry</text>
+<text x="670.6666666666761" y="344" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">Chemistry & Materials, Prof. K. Laasonen — Aalto University, Finland</text>
+<text x="670.6666666666761" y="360" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#111111">Electrode–electrolyte MD simulations • CompBat EU-project presentations</text>
+<a xlink:href="https://pubs.acs.org/doi/full/10.1021/acs.jpcc.2c06537" target="_blank"><rect x="879.3333333333239" y="316" rx="8" ry="8" width="65" height="20" fill="#e8f4e8" stroke="#006400" stroke-width="1"/><text x="911.8333333333239" y="330" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#006400">Article</text></a>
+<line x1="142.0" y1="120" x2="142.0" y2="346" stroke="#8fcf8f" stroke-width="2" stroke-dasharray="3,3"/>
+<rect x="142.0" y="354" rx="10" ry="10" width="506.33333333332394" height="60" fill="#f8fdf8" stroke="#006400" stroke-width="1.5"/>
+<text x="154.0" y="374" font-family="Segoe UI,Arial,sans-serif" font-size="13.5" font-weight="700" fill="#006400">Doctoral Candidate — Engineering Physics</text>
+<text x="154.0" y="390" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#5a5f66">Applied Physics, Prof. M. Puska — Aalto University, Finland</text>
+<text x="154.0" y="406" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#111111">Raman/PL computational methods • ML-MD for lattice thermal conductivity</text>
+<a xlink:href="https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/adts.202100217" target="_blank"><rect x="569.3333333333239" y="362" rx="8" ry="8" width="65" height="20" fill="#e8f4e8" stroke="#006400" stroke-width="1"/><text x="601.8333333333239" y="376" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#006400">Article</text></a>
+<a xlink:href="https://aaltodoc.aalto.fi/items/585f9b3c-75c3-4296-8f74-b714c0be73de" target="_blank"><rect x="505.33333333332394" y="362" rx="8" ry="8" width="58" height="20" fill="#e8f4e8" stroke="#006400" stroke-width="1"/><text x="534.3333333333239" y="376" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#006400">Thesis</text></a>
+<text x="1360" y="402" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#5a5f66">Updated 2025-10-16</text>
+</svg>
