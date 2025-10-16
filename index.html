@@ -2,47 +2,137 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <title>Arsalan Hashemi — Resume</title>
+  <title>Arsalan Hashemi — Academic CV</title>
   <style>
-    :root {
-      --accent: #006400;
-      --content-width: 680px;   /* reduce this for wider side margins */
-      --outer-margin: 32px;      /* space above/below on screen */
-      --side-padding: 24px;      /* inner padding left/right */
+    :root{
+      --accent:#006400;              /* Dark green */
+      --content-width: 720px;        /* Content column width */
+      --outer-margin: 36px;          /* Top/bottom white space on screen */
+      --side-padding: 26px;          /* Left/right inner padding on screen */
+      --muted:#606870;
     }
 
-    html, body {
-      direction: ltr;            /* ensure left-to-right flow */
-      text-align: left;
+    html, body { direction:ltr; text-align:left; }
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      max-width:var(--content-width);
+      margin:var(--outer-margin) auto;
+      padding:0 var(--side-padding);
+      line-height:1.6;
+      color:#111;
+      background:#fff;
     }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                   "Helvetica Neue", Arial, sans-serif; /* 'sans-serif' */
-      max-width: var(--content-width);
-      margin: var(--outer-margin) auto;
-      padding: 0 var(--side-padding);
-      line-height: 1.6;
+    /* Headings & type */
+    h1{ font-size:2rem; margin:0 0 .25rem 0; color:#0b1a0b; letter-spacing:0.2px; }
+    h2{ font-size:1.1rem; margin:1.25rem 0 .35rem; color:var(--accent); text-transform:uppercase; letter-spacing:.08em; }
+    p, li{ font-size:.97rem; }
+    a{ color:#004d99; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    /* Fancy section divider */
+    .rule{ height:3px; width:72px; background:var(--accent); margin:.5rem 0 1rem; border-radius:2px; }
+
+    /* Masthead: name/title left, image right */
+    .masthead{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:20px;
+      align-items:center;
+      margin-bottom:8px;
+    }
+    .titleblock .subtitle{
+      color:var(--muted);
+      font-weight:600;
+      margin:0 0 .25rem 0;
+    }
+    .contact{ margin:.35rem 0 0 0; color:#333; font-size:.95rem; }
+    .contact a{ color:#0b5cab; }
+
+    .avatar{
+      width:128px; height:128px; object-fit:cover;
+      border-radius:50%;
+      border:3px solid #e6efe6;
+      box-shadow:0 4px 14px rgba(0,0,0,.08);
     }
 
-    h1, h2 { color: var(--accent); }
+    /* Bio callout */
+    .bio{
+      background:linear-gradient(180deg, #f5fbf5, #ffffff);
+      border:1px solid #e4efe4;
+      border-left:4px solid var(--accent);
+      padding:14px 16px;
+      border-radius:10px;
+      margin:10px 0 18px;
+    }
+    .bio p{ margin:.35rem 0; }
 
-    /* Print/PDF margins */
-    @media print {
-      @page {
-        size: A4;
-        margin: 18mm 22mm;       /* increase for larger print margins */
-      }
-      body {
-        max-width: none;         /* let @page control width */
-        margin: 0;
-        padding: 0;
-      }
-      a { text-decoration: none; }
+    /* Lists tighter for CV */
+    ul{ margin:.25rem 0 .75rem 1.25rem; }
+    li{ margin:.15rem 0; }
+
+    /* Print/PDF styles */
+    @media print{
+      @page{ size:A4; margin:18mm 22mm; }
+      body{ max-width:none; margin:0; padding:0; }
+      a{ text-decoration:none; color:inherit; }
+      .bio{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      h2{ margin-top:10pt; }
+      .masthead{ grid-template-columns:1fr auto; gap:14pt; }
+      .avatar{ width:110px; height:110px; }
+      .rule{ margin:.3rem 0 .7rem; }
+    }
+
+    /* Small screens */
+    @media (max-width:560px){
+      .masthead{ grid-template-columns:1fr; text-align:left; }
+      .avatar{ width:112px; height:112px; justify-self:start; }
     }
   </style>
 </head>
 <body>
-  <!-- your content here -->
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div class="titleblock">
+      <h1>Arsalan Hashemi</h1>
+      <div class="subtitle">Computational Materials Scientist</div>
+      <div class="contact">
+        Email: <a href="mailto:arsalan.hashemi@uef.fi">arsalan.hashemi@uef.fi</a> |
+        <a href="https://www.linkedin.com/in/arsalanhashemi">LinkedIn</a> |
+        <a href="https://github.com/arsalan-hashemi">GitHub</a>
+      </div>
+    </div>
+    <!-- Replace src with your photo URL/path -->
+    <img class="avatar" src="your-photo.jpg" alt="Portrait of Arsalan Hashemi" />
+  </header>
+
+  <div class="rule"></div>
+
+  <!-- Bio -->
+  <section class="bio" aria-label="Professional Summary">
+    <p>I am a computational materials scientist with more than nine years of experience, including six years in engineering physics and three years in chemistry.</p>
+    <p>Expertise in <strong>density functional theory calculations</strong>, <strong>molecular dynamics simulations</strong>, and <strong>machine learning</strong> for high-throughput virtual screening.</p>
+    <p>I have a proven track record as a <strong>Python</strong> programmer and big-data analyst.</p>
+  </section>
+
+  <!-- Education -->
+  <h2>Education</h2>
+  <p>PhD in Computational Physics, Aalto University, 2023</p>
+
+  <!-- Research Interests -->
+  <h2>Research Interests</h2>
+  <ul>
+    <li>Machine Learning in Physics and Chemistry</li>
+    <li>Catalytic surfaces, Redox-flow batteries, Low-dimensional materials</li>
+  </ul>
+
+  <!-- Skills -->
+  <h2>Skills</h2>
+  <ul>
+    <li>Python, LAMMPS, ASE, ORCA</li>
+    <li>Data analysis and visualization</li>
+  </ul>
+
 </body>
 </html>
