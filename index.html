@@ -1,61 +1,48 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en" dir="ltr">
 <head>
-
-  <meta charset="UTF-8">
-
-  <title> Arsalan Hashemi — Resume </title>
-
+  <meta charset="UTF-8" />
+  <title>Arsalan Hashemi — Resume</title>
   <style>
+    :root {
+      --accent: #006400;
+      --content-width: 680px;   /* reduce this for wider side margins */
+      --outer-margin: 32px;      /* space above/below on screen */
+      --side-padding: 24px;      /* inner padding left/right */
+    }
 
-    body { font-family: san-serif; max-width: 700px; margin: auto; line-height: 1.5; }
+    html, body {
+      direction: ltr;            /* ensure left-to-right flow */
+      text-align: left;
+    }
 
-    h1, h2 { color: #006400; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   "Helvetica Neue", Arial, sans-serif; /* 'sans-serif' */
+      max-width: var(--content-width);
+      margin: var(--outer-margin) auto;
+      padding: 0 var(--side-padding);
+      line-height: 1.6;
+    }
 
+    h1, h2 { color: var(--accent); }
+
+    /* Print/PDF margins */
+    @media print {
+      @page {
+        size: A4;
+        margin: 18mm 22mm;       /* increase for larger print margins */
+      }
+      body {
+        max-width: none;         /* let @page control width */
+        margin: 0;
+        padding: 0;
+      }
+      a { text-decoration: none; }
+    }
   </style>
-
 </head>
-
 <body>
-
-  <h1>Arsalan Hashemi</h1>
-
-  <p><strong>Computational Materials Scientist</strong></p>
-
-  <p>Email: arsalan.hashemi@uef.fi | <a href="https://www.linkedin.com/in/arsalanhashemi">LinkedIn</a></p>
-
- 
-
-  <h2>Education</h2>
-
-  <p>PhD in Computational Physics, Aalto University, 2023</p>
-
- 
-
-  <h2>Research Interests</h2>
-
-  <ul>
-
-    <li>Machine Learning in Physics and Chemistry</li>
-
-    <li>Catalytic surface, Redox flow battreies, Low dimensional materials</li>
-
-  </ul>
-
- 
-
-  <h2>Skills</h2>
-
-  <ul>
-
-    <li>Python, LAMMPS, ASE, ORCA</li>
-
-    <li>Data analysis and visualization</li>
-
-  </ul>
-
+  <!-- your content here -->
 </body>
-
 </html>
