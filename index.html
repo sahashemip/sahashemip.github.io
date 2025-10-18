@@ -138,6 +138,20 @@
       .masthead{ grid-template-columns:1fr; text-align:left; }
       .avatar{ width:112px; height:112px; justify-self:start; }
     }
+
+   /* Subprojects inside a research card */
+    .subprojects{ display:grid; gap:.5rem; margin-top:.5rem; }
+    .subproject{
+      display:flex; align-items:center; gap:.5rem;
+      background:#fff; border:1px solid #e4efe4; border-radius:10px;
+      padding:.45rem .6rem; box-shadow:0 1px 3px rgba(0,0,0,.05);
+      text-decoration:none; color:inherit; transition:transform .15s, box-shadow .15s;
+}
+.subproject:hover{ transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,.1); text-decoration:none; }
+.subproject .icon{ width:16px; height:16px; flex:0 0 auto; opacity:.75 }
+.subproject .title{ font-weight:600; }
+.subproject .spacer{ flex:1 1 auto; }
+.subproject .ext{ opacity:.6 }
   </style>
 </head>
 <body>
@@ -191,10 +205,44 @@
       </div>
       
       <div class="research-card">
-        <div class="marker"></div>
-        <h3>Machine Learning Interatomic Potentials</h3>
-        <p style="text-align: justify;">Atomic-scale modeling of plasma-surface interactions, including molecular sputtering of Be–D and W–D systems.</p>
-      </div>
+      <div class="marker"></div>
+      <h3>Machine Learning Interatomic Potentials</h3>
+      <p style="text-align: justify;">
+        Atomic-scale modeling of plasma–surface interactions, including molecular sputtering of Be–D and W–D systems.
+      </p>
+
+      <!-- Subprojects / repo links -->
+      <div class="subprojects" role="list" aria-label="Related repositories">
+        <a class="subproject" role="listitem"
+         href="https://github.com/sahashemip/cu-hbn-sic-ml-potential"
+         target="_blank" rel="noopener"
+         aria-label="Interlayer bonding and Cu adsorption — GitHub repository">
+        <!-- GitHub icon (inline SVG, no external deps) -->
+        <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38
+                 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13
+                 -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                 .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                 -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0
+                 c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15
+                 0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17
+                 0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/>
+      </svg>
+      <span class="title">Interlayer bonding &amp; Cu adsorption</span>
+      <span class="spacer"></span>
+      <span class="ext" aria-hidden="true">↗</span>
+    </a>
+
+    <!-- Add more repos like this -->
+    <!--
+    <a class="subproject" href="https://github.com/USER/REPO" target="_blank" rel="noopener">
+      <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="..."/></svg>
+      <span class="title">Another subproject title</span>
+      <span class="spacer"></span><span class="ext" aria-hidden="true">↗</span>
+    </a>
+    -->
+  </div>
+</div>
 
       <div class="research-card">
         <div class="marker"></div>
