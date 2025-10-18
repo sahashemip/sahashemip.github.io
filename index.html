@@ -58,6 +58,53 @@
       box-shadow:0 4px 14px rgba(0,0,0,.08);
     }
 
+    /* Bio / research card style */
+    .bio-card, .research-card {
+      position: relative;
+      background-color: #f7f9ff;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 0rem;
+    }
+
+    .bio-card:hover, .research-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+
+    .bio-card .marker, .research-card .marker {
+      width: 16px;
+      height: 16px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
+
+    .bio-card p, .research-card p {
+      margin-left: 30px; /* space for marker */
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .research-card h3 {
+      margin-top: 0;
+      margin-left: 30px; /* space for marker */
+      font-size: 1.05rem;
+      color: #0b1a0b;
+    }
+
+    /* Grid layout for multiple research cards */
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
     /* Bio callout */
     .bio{
       background:linear-gradient(180deg, #f5fbf5, #ffffff);
@@ -68,6 +115,7 @@
       margin:10px 0 18px;
     }
     .bio p{ margin:.35rem 0; }
+
 
     /* Lists tighter for CV */
     ul{ margin:.25rem 0 .75rem 1.25rem; }
@@ -129,7 +177,7 @@
 
       <div class="research-card">
         <div class="marker"></div>
-        <h3>Mechanical Properties of Polyolefin Chains</h3>
+        <h3>Raman and Photoluminescence Spectroscopies</h3>
         <video autoplay loop muted playsinline 
                style="width:100%;border-radius:8px;margin:10px 0;">
         <source src="PS.mp4" type="video/mp4">
