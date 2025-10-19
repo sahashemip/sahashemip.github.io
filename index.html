@@ -13,8 +13,39 @@
       --subproject-bg:#FFFAE6;
       --subproject-bg-hover:#FFF3BF;
       --subproject-border:#F3E6A3;
+      --badge-bg: #6D28D9;          /* purple */
+      --badge-bg-hover: #7C3AED;    /* slightly brighter purple */
+      --badge-text: #ffffff;
+      --badge-ring: rgba(124,58,237,.35);
     }
 
+.tech-badges{
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  vertical-align: middle; /* keeps it tidy in a line of text */
+}
+
+.badge{
+  display: inline-flex;
+  align-items: center;
+  padding: .22rem .55rem;
+  border-radius: 999px;         /* full pill */
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-style: italic;           /* sexy italic */
+  font-weight: 600;
+  letter-spacing: .2px;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+  transition: transform .15s, box-shadow .15s, background-color .15s;
+}
+
+.badge:hover{
+  background: var(--badge-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.12), 0 0 0 1px var(--badge-ring) inset;
+}
     html, body { direction:ltr; text-align:left; }
     body{
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -200,7 +231,7 @@
     <p>Born by the Caspian Sea (Iran), I learned to read patterns in sand, wind and water.
       I studied at home for my B.Sc., moved to Isfahan for my M.Sc., and then north to Finland, where Aalto became a compass.
       Under the guidance of Dr. Arkady Krasheninnikov, Prof. Hannu-Pekka Komsa, Prof. Matti Puska, and Prof. Tapio Ala-Nissilä, I learned to listen to materials.
-      With Prof. Kari Laasonen (CHEM), I traced the quiet chemistry of electrons and reactions. Under the guidance of Prof. Mikko Karttunen, I apply physics-informed chemistry (and vice versa) to materials-science challenges. </p>
+      With Prof. Kari Laasonen, I traced the quiet chemistry of electrons and reactions. Under the guidance of Prof. Mikko Karttunen, I apply physics-informed chemistry (and vice versa) to materials-science challenges. </p>
     <p>What began as a hobby—machine learning, quantum mechanics, electronic-structure calculations, data and code—became my craft: building models that let matter speak, and turning whispers of theory into tools for energy, materials, and the small revolutions that begin inside a simulation.</p>
   </section>
 
@@ -238,7 +269,14 @@
       <span class="spacer"></span>
       <span class="ext" aria-hidden="true">↗</span>
     </a>
-    <span class="tech-inline">Scikit-learn, pandas, Matplotlib, NumPy, JupyterLab</span>
+    <span class="tech-badges" aria-label="Tech stack">
+  <span class="badge">Scikit-learn</span>
+  <span class="badge">Pandas</span>
+  <span class="badge">Matplotlib</span>
+  <span class="badge">NumPy</span>
+  <span class="badge">JupyterLab</span>
+  </span>
+
   </div>
 </div>
       
