@@ -453,6 +453,54 @@
   </ul>
 </section>
 
+<script>
+  // Collaboration sites (you can change cities/colors anytime)
+  const COLLAB_SITES = [
+    { name:"Germany (Berlin)",   lat:52.5200,  lon:13.4050,  color:"#0ea5e9" },
+    { name:"USA (Washington, DC)", lat:38.9072,  lon:-77.0369, color:"#22c55e" },
+    { name:"China (Beijing)",    lat:39.9042,  lon:116.4074, color:"#f59e0b" },
+    { name:"UK (London)",        lat:51.5074,  lon:-0.1278,  color:"#ef4444" }
+  ];
+
+  // Initialize Leaflet map
+  const map = L.map("collab-map", {
+    zoomControl: false,
+    scrollWheelZoom: false,
+    dragging: true,     // allow panning on desktop
+    tap: true
+  });
+
+  // OSM tiles + attribution (required)
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 6,
+    minZoom: 2,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  // Build a pulsing (blinking) DivIcon with the given color
+  function pulsingIcon(color){
+    return L.divIcon({
+      className: "",
+      html: `<span class="pulse" style="color:${color}; background:${color}"></span>`,
+      iconSize: [12,12],
+      iconAnchor: [6,6]
+    });
+  }
+
+  // Add markers
+  const bounds = [];
+  COLLAB_SITES.forEach(site => {
+    const m = L.marker([site.lat, site.lon], { icon: pulsingIcon(site.color), title: site.name }).addTo(map);
+    m.bindPopup(`<strong>${site.name}</strong>`);
+    bounds.push([site.lat, site.lon]);
+  });
+
+  // Fit all markers nicely
+  map.fitBounds(bounds, { padding:[20,20] });
+
+  // Optional: keep a world-ish view on very wide screens
+  if (map.getZoom() > 3) map.setZoom(3);
+</script>
 
       
 </body>
