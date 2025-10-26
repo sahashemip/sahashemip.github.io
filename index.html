@@ -46,11 +46,7 @@
 
     /* Masthead */
     .masthead{
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap:20px;
-      align-items:center;
-      margin-bottom:8px;
+      display:grid; grid-template-columns: 1fr auto; gap:20px; align-items:center; margin-bottom:8px;
     }
     .titleblock .subtitle{ color:var(--muted); font-weight:600; margin:0 0 .25rem 0; }
     .contact{ margin:.35rem 0 0 0; color:#333; font-size:.95rem; }
@@ -125,57 +121,90 @@
     .collab-static #pins{ position:absolute; inset:0; pointer-events:auto; z-index:2; } /* allow hover */
 
     .pin{
-      position:absolute; transform:translate(-50%,-100%); pointer-events:auto; cursor:default;
-      transition:filter .15s ease, opacity .15s ease; outline:none;
+      position:absolute; transform:translate(-50%,-100%); pointer-events:auto; cursor:default; outline:none;
+      --stem-h: 14px;                /* vertical stem height */
+      --dot-size: 10px;
+      --ring-size: 22px;
+      --ring2-size: 0px;             /* 0 unless .home */
+      z-index:1; transition:filter .15s ease, opacity .15s ease;
     }
+    .pin:hover{ z-index:5; }
+
+    /* Vertical stem: from map surface (anchor) up to the marker center */
+    .pin .stem{
+      position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+      width:0; height:var(--stem-h); border-left:2px solid currentColor;
+      filter:drop-shadow(0 0 1px rgba(0,0,0,.2));
+    }
+
     .pin .dot{
-      width:10px; height:10px; border-radius:50%;
+      position:absolute; left:50%;
+      bottom: calc(var(--stem-h) - (var(--dot-size) / 2));     /* center on stem tip */
+      transform: translateX(-50%);
+      width:var(--dot-size); height:var(--dot-size); border-radius:50%;
       background: currentColor; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15);
-      margin:0 auto; transition:transform .12s ease;
+      transition:transform .12s ease; z-index:2;
     }
+
     .pin .ring{
-      position:absolute; left:50%; top:50%; width:22px; height:22px; transform:translate(-50%,-50%);
-      border-radius:50%; border:2px solid currentColor; opacity:.85; animation:ping 1.6s ease-out infinite;
+      position:absolute; left:50%;
+      bottom: calc(var(--stem-h) - (var(--ring-size) / 2));     /* center on stem tip */
+      transform: translateX(-50%);
+      width:var(--ring-size); height:var(--ring-size);
+      border-radius:50%; border:2px solid currentColor; opacity:.85;
+      animation:ping 1.6s ease-out infinite; z-index:1;
     }
+    .pin .ring2{
+      position:absolute; left:50%;
+      bottom: calc(var(--stem-h) - (var(--ring2-size) / 2));    /* only for .home */
+      transform: translateX(-50%);
+      width:var(--ring2-size); height:var(--ring2-size);
+      border-radius:50%; border:2px solid currentColor; opacity:.7;
+      animation:pingStrong 1.6s .25s ease-out infinite; z-index:1;
+    }
+
     .pin:hover .ring{ animation-duration:1.05s; }
     .pin:hover .dot{ transform:scale(1.15); }
 
     /* Stronger, different pulse for HOME (UEF) */
-    .pin.home .dot{ width:12px; height:12px; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.2), 0 0 8px rgba(0,100,0,.35); }
-    .pin.home .ring{
-      width:28px; height:28px; border-width:3px; animation:pingStrong 1.1s ease-out infinite;
+    .pin.home{
+      --stem-h: 16px;
+      --dot-size: 12px;
+      --ring-size: 28px;
+      --ring2-size: 38px;
     }
-    .pin.home .ring2{
-      position:absolute; left:50%; top:50%; width:38px; height:38px; transform:translate(-50%,-50%);
-      border-radius:50%; border:2px solid currentColor; opacity:.7; animation:pingStrong 1.6s .25s ease-out infinite;
-    }
+    .pin.home .dot{ box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.2), 0 0 8px rgba(0,100,0,.35); }
 
     @keyframes ping{
-      0% { transform:translate(-50%,-50%) scale(.2); opacity:.85; }
-      70%{ transform:translate(-50%,-50%) scale(1.5); opacity:0; }
-      100%{ transform:translate(-50%,-50%) scale(1.6); opacity:0; }
+      0% { transform:translateX(-50%) scale(.2); opacity:.85; }
+      70%{ transform:translateX(-50%) scale(1.5); opacity:0; }
+      100%{ transform:translateX(-50%) scale(1.6); opacity:0; }
     }
     @keyframes pingStrong{
-      0% { transform:translate(-50%,-50%) scale(.22); opacity:.95; }
-      65%{ transform:translate(-50%,-50%) scale(1.8); opacity:0; }
-      100%{ transform:translate(-50%,-50%) scale(1.9); opacity:0; }
+      0% { transform:translateX(-50%) scale(.22); opacity:.95; }
+      65%{ transform:translateX(-50%) scale(1.8); opacity:0; }
+      100%{ transform:translateX(-50%) scale(1.9); opacity:0; }
     }
 
     /* Labels: hidden by default; pop up on hover/focus */
     .pin .label{
-      margin-top:.28rem; font-size:.85rem; line-height:1; color:#111; background:#fff;
+      position:absolute; left:50%; bottom: calc(var(--stem-h) + var(--dot-size) + 6px);
+      transform:translateX(-50%); margin-top:.28rem;
+      font-size:.85rem; line-height:1; color:#111; background:#fff;
       border:1px solid #e6e6e6; border-radius:6px; padding:.2rem .35rem; white-space:nowrap;
       box-shadow:0 2px 8px rgba(0,0,0,.08);
-      opacity:0; visibility:hidden; transform:translateY(-4px) scale(.96);
+      opacity:0; visibility:hidden; transform-origin:50% 100%;
       transition:opacity .15s ease, transform .15s ease, visibility .15s;
+      transform: translate(-50%,-4px) scale(.96);
+      z-index:3;
     }
     .pin:hover .label, .pin:focus-visible .label{
-      opacity:1; visibility:visible; transform:translateY(0) scale(1);
+      opacity:1; visibility:visible; transform: translate(-50%,0) scale(1);
     }
 
     /* Inactive collaborators: muted dot/ring; label still pops on hover */
     .pin.inactive{ opacity:.55; filter:grayscale(.2); }
-    .pin.inactive:hover{ opacity:1; filter:none; z-index:3; }
+    .pin.inactive:hover{ opacity:1; filter:none; z-index:5; }
     .pin.inactive .label{ font-style:italic; border-style:dashed; }
 
     /* Colors */
@@ -184,6 +213,11 @@
     .c-cn{ color:#f59e0b } /* China */
     .c-uk{ color:#ef4444 } /* UK */
     .c-fi{ color:var(--accent) } /* Finland */
+
+    /* Motion reduction */
+    @media (prefers-reduced-motion: reduce){
+      .ring, .ring2{ animation:none !important; }
+    }
 
     /* Print */
     @media print{
@@ -414,27 +448,28 @@
         pin.className = `pin ${s.cls || ""} ${s.active === false ? "inactive" : ""} ${s.home ? "home" : ""}`;
         pin.style.left = x + "%";
         pin.style.top  = y + "%";
-        pin.setAttribute("tabindex", "0");           // focus = show label
+        pin.setAttribute("tabindex", "0");
         pin.setAttribute("aria-label", s.label);
 
-        // rings + dot + label
-        const ring = document.createElement("div"); ring.className = "ring";
-        const dot  = document.createElement("div"); dot.className  = "dot";
-        const label= document.createElement("div"); label.className= "label"; label.textContent = s.label || "";
+        // pieces: stem + rings + dot + label
+        const stem  = document.createElement("div"); stem.className  = "stem";
+        const ring  = document.createElement("div"); ring.className  = "ring";
+        const dot   = document.createElement("div"); dot.className   = "dot";
+        const label = document.createElement("div"); label.className = "label"; label.textContent = s.label || "";
 
-        pin.append(ring, dot);
+        pin.append(stem, ring, dot);
         if (s.home){
           const ring2 = document.createElement("div"); ring2.className = "ring2";
           pin.append(ring2);
         }
         pin.append(label);
 
-        // Optional: tap to toggle label on touch devices
+        // Tap to toggle label on touch devices
         pin.addEventListener("click", () => {
-          const shown = pin.classList.toggle("show-label");
-          label.style.opacity = shown ? "1" : "";
-          label.style.visibility = shown ? "visible" : "";
-          label.style.transform = shown ? "translateY(0) scale(1)" : "";
+          const visible = label.style.visibility === "visible";
+          label.style.visibility = visible ? "hidden" : "visible";
+          label.style.opacity    = visible ? "0"      : "1";
+          label.style.transform  = visible ? "translate(-50%,-4px) scale(.96)" : "translate(-50%,0) scale(1)";
         });
 
         mount.appendChild(pin);
