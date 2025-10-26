@@ -128,7 +128,7 @@
       --ring2-size: 0px;             /* 0 unless .home */
       z-index:1; transition:filter .15s ease, opacity .15s ease;
     }
-    .pin:hover{ z-index:5; }
+    .pin:hover{ z-index:6; }
 
     /* Vertical stem: from map surface (anchor) up to the marker center */
     .pin .stem{
@@ -145,7 +145,7 @@
       background: currentColor; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15);
       transition:transform .12s ease; z-index:2;
     }
-    /* FIX: keep translateX(-50%) when scaling so the dot doesn't jump */
+    /* keep translateX(-50%) when scaling so the dot doesn't jump */
     .pin:hover .dot,
     .pin:focus-visible .dot{
       transform: translateX(-50%) scale(1.15);
@@ -190,26 +190,54 @@
       100%{ transform:translateX(-50%) scale(1.9); opacity:0; }
     }
 
-    /* Labels: hidden by default; pop up on hover/focus */
-    .pin .label{
-      position:absolute; left:50%; bottom: calc(var(--stem-h) + var(--dot-size) + 6px);
-      transform:translateX(-50%); margin-top:.28rem;
-      font-size:.85rem; line-height:1; color:#111; background:#fff;
-      border:1px solid #e6e6e6; border-radius:6px; padding:.2rem .35rem; white-space:nowrap;
-      box-shadow:0 2px 8px rgba(0,0,0,.08);
-      opacity:0; visibility:hidden; transform-origin:50% 100%;
-      transition:opacity .15s ease, transform .15s ease, visibility .15s;
-      transform: translate(-50%,-4px) scale(.96);
-      z-index:3;
+    /* ==== COLLAB CARDS ==== */
+    .pin .card{
+      position:absolute; left:50%; bottom: calc(var(--stem-h) + var(--dot-size) + 10px);
+      transform: translate(-50%, -8px) scale(.98);
+      width:260px; max-width: calc(100vw - 32px);
+      background:#fff; border:1px solid #e6e6e6; border-radius:10px;
+      box-shadow:0 6px 22px rgba(0,0,0,.14);
+      padding:.6rem .7rem .7rem;
+      opacity:0; visibility:hidden;
+      transition:opacity .18s ease, transform .18s ease, visibility .18s;
+      z-index:10;
     }
-    .pin:hover .label, .pin:focus-visible .label{
-      opacity:1; visibility:visible; transform: translate(-50%,0) scale(1);
+    .pin .card::after{
+      content:""; position:absolute; left:50%; bottom:-8px; transform:translateX(-50%);
+      width:0; height:0; border:8px solid transparent; border-top-color:#fff;
+      filter:drop-shadow(0 1px 0 rgba(0,0,0,.08));
+    }
+    .pin .card-title{
+      font-weight:700; font-size:.92rem; margin:0 0 .25rem; color:#0b1a0b;
+    }
+    .pin .card-body{
+      font-size:.9rem; color:#222; line-height:1.35; word-wrap:break-word;
     }
 
-    /* Inactive collaborators: muted dot/ring; label still pops on hover */
+    /* show card on hover/focus/toggled */
+    .pin:hover .card,
+    .pin:focus-visible .card,
+    .pin.open .card{
+      opacity:1; visibility:visible; transform: translate(-50%, 0) scale(1);
+    }
+
+    /* Edge handling: shift card when near sides */
+    .pin.align-left .card{ left:0; transform: translate(0, -8px) scale(.98); }
+    .pin.align-left:hover .card,
+    .pin.align-left.open .card,
+    .pin.align-left:focus-visible .card{ transform: translate(0, 0) scale(1); }
+    .pin.align-left .card::after{ left:14px; transform:none; }
+
+    .pin.align-right .card{ left:auto; right:0; transform: translate(0, -8px) scale(.98); }
+    .pin.align-right:hover .card,
+    .pin.align-right.open .card,
+    .pin.align-right:focus-visible .card{ transform: translate(0,0) scale(1); }
+    .pin.align-right .card::after{ left:auto; right:14px; transform:none; }
+
+    /* Inactive collaborators: muted pin; card still shows on hover */
     .pin.inactive{ opacity:.55; filter:grayscale(.2); }
-    .pin.inactive:hover{ opacity:1; filter:none; z-index:5; }
-    .pin.inactive .label{ font-style:italic; border-style:dashed; }
+    .pin.inactive:hover{ opacity:1; filter:none; z-index:6; }
+    .pin.inactive .card{ border-style:dashed; }
 
     /* Colors */
     .c-de{ color:#0ea5e9 } /* Germany */
@@ -427,18 +455,65 @@
      * Equirectangular positioning:
      *   x% = (lon + 180) / 360 * 100
      *   y% = (90  -  lat) / 180 * 100
-     * Set 'home:true' for UEF to get the stronger double pulse.
-     * Mark collaborators inactive with active:false (muted until hover).
+     * 'home:true' -> stronger double pulse.
+     * 'active:false' -> muted pin.
+     * 'title' + 'desc' -> card content (desc truncated to 30 words).
      */
+
     const SITES = [
-      { label: "UEF — Joensuu, FI",     lat: 62.6,   lon: 29.8,    cls: "c-fi", active: true,  home: true },
-      { label: "Germany — Berlin",      lat: 52.5200,lon: 13.4050, cls: "c-de", active: true  },
-      { label: "USA — Washington, DC",  lat: 38.9072,lon:-77.0369, cls: "c-us", active: true  },
-      { label: "China — Beijing",       lat: 39.9042,lon:116.4074, cls: "c-cn", active: true  },
-      { label: "UK — London",           lat: 51.5074,lon: -0.1278, cls: "c-uk", active: true  },
-      // Example inactive:
-      // { label: "USA — Cambridge, MA", lat: 42.3736, lon: -71.1097, cls: "c-us", active:false },
+      {
+        title: "Home — UEF, Joensuu",
+        desc:  "Lead: Dr. Arsalan Hashemi. Physics-informed chemistry and machine-learning workflows for energy and materials.",
+        lat: 62.6, lon: 29.8, cls: "c-fi", active: true, home: true
+      },
+      {
+        title: "Germany — Berlin",
+        desc:  "Collaborator: Dr. Hossein Vahid. Electrolyte modeling for developing water purification and desalination.",
+        lat: 52.5200, lon: 13.4050, cls: "c-de", active: true
+      },
+      {
+        title: "USA — Washington, DC",
+        desc:  "Collaborator: Prof. Jane Doe. Defects in 2D semiconductors; multiscale simulations bridging DFT and ML potentials.",
+        lat: 38.9072, lon:-77.0369, cls: "c-us", active: true
+      },
+      {
+        title: "China — Beijing",
+        desc:  "Collaborator: Dr. Wei Zhang. Metal–oxide interfaces; GPUMD/NEP force-field development and benchmarking.",
+        lat: 39.9042, lon:116.4074, cls: "c-cn", active: true
+      },
+      {
+        title: "UK — London",
+        desc:  "Collaborator: Dr. Sara Khan. Raman and photoluminescence workflows for layered materials under strain.",
+        lat: 51.5074, lon:-0.1278, cls: "c-uk", active: true
+      },
+
+      /* Extra examples (edit/replace later) */
+      {
+        title: "USA — Cambridge, MA",
+        desc:  "Collaborator: Dr. Alex Miller. Electrochemical CO₂ reduction: solvent effects, ion pairing, and reactive transport modeling.",
+        lat: 42.3736, lon:-71.1097, cls: "c-us", active: false
+      },
+      {
+        title: "Germany — Munich",
+        desc:  "Collaborator: Prof. Lena Hoffmann. Catalysis on hBN/SiC: adsorption kinetics and supported metal clusters.",
+        lat: 48.1374, lon: 11.5755, cls: "c-de", active: false
+      },
+      {
+        title: "China — Shanghai",
+        desc:  "Collaborator: Dr. Li Chen. Battery electrolytes: data curation, surrogate models, and uncertainty quantification.",
+        lat: 31.2304, lon:121.4737, cls: "c-cn", active: false
+      },
+      {
+        title: "UK — Oxford",
+        desc:  "Collaborator: Prof. Tom Williams. Quantum defects in carbides; spectroscopic fingerprints and ab-initio predictions.",
+        lat: 51.7520, lon:-1.2577, cls: "c-uk", active: false
+      }
     ];
+
+    function truncateWords(str, max){
+      const words = (str || "").trim().split(/\s+/);
+      return words.length <= max ? str : words.slice(0, max).join(" ") + "…";
+    }
 
     (function placePins(){
       const mount = document.getElementById("pins");
@@ -453,27 +528,34 @@
         pin.style.left = x + "%";
         pin.style.top  = y + "%";
         pin.setAttribute("tabindex", "0");
-        pin.setAttribute("aria-label", s.label);
+        pin.setAttribute("aria-label", s.title || s.desc || "collaborator");
 
-        // pieces: stem + rings + dot + label
+        // near edges? shift card alignment
+        if (x < 15) pin.classList.add("align-left");
+        else if (x > 85) pin.classList.add("align-right");
+
+        // pieces: stem + rings + dot + card
         const stem  = document.createElement("div"); stem.className  = "stem";
         const ring  = document.createElement("div"); ring.className  = "ring";
         const dot   = document.createElement("div"); dot.className   = "dot";
-        const label = document.createElement("div"); label.className = "label"; label.textContent = s.label || "";
+
+        const card  = document.createElement("div"); card.className = "card";
+        const title = document.createElement("div"); title.className = "card-title"; title.textContent = s.title || "";
+        const body  = document.createElement("div"); body.className  = "card-body";  body.textContent  = truncateWords(s.desc || "", 30);
+        card.append(title, body);
 
         pin.append(stem, ring, dot);
         if (s.home){
           const ring2 = document.createElement("div"); ring2.className = "ring2";
           pin.append(ring2);
         }
-        pin.append(label);
+        pin.append(card);
 
-        // Tap to toggle label on touch devices
-        pin.addEventListener("click", () => {
-          const visible = label.style.visibility === "visible";
-          label.style.visibility = visible ? "hidden" : "visible";
-          label.style.opacity    = visible ? "0"      : "1";
-          label.style.transform  = visible ? "translate(-50%,-4px) scale(.96)" : "translate(-50%,0) scale(1)";
+        // Tap or Enter/Space toggles the card (for touch/keyboard)
+        pin.addEventListener("click", () => pin.classList.toggle("open"));
+        pin.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pin.classList.toggle("open"); }
+          if (e.key === "Escape") { pin.classList.remove("open"); }
         });
 
         mount.appendChild(pin);
