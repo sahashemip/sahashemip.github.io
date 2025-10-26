@@ -41,7 +41,6 @@
     a{ color:#004d99; text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
-    /* Divider */
     .rule{height:0px; border-bottom:3px dashed #000; width:850px; margin:.5rem 0 1rem;}
 
     /* Masthead */
@@ -61,7 +60,7 @@
       font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
     }
 
-    /* Cards */
+    /* Generic cards */
     .bio-card, .research-card {
       position: relative; background-color: #f7f9ff; border-radius: 10px; padding: 16px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: transform .3s ease, box-shadow .3s ease; margin-bottom: 0rem;
@@ -126,7 +125,6 @@
       --dot-size: 10px;
       --ring-size: 22px;
       --ring2-size: 0px;             /* 0 unless .home */
-      --card-shift: 0px;             /* computed in JS to keep cards inside */
       z-index:1; transition:filter .15s ease, opacity .15s ease;
     }
     .pin:hover{ z-index:6; }
@@ -146,15 +144,14 @@
       background: currentColor; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15);
       transition:transform .12s ease; z-index:2;
     }
-    /* keep translateX(-50%) when scaling so the dot doesn't jump */
     .pin:hover .dot,
     .pin:focus-visible .dot{
-      transform: translateX(-50%) scale(1.15);
+      transform: translateX(-50%) scale(1.15); /* stays centered */
     }
 
     .pin .ring{
       position:absolute; left:50%;
-      bottom: calc(var(--stem-h) - (var(--ring-size) / 2));     /* center on stem tip */
+      bottom: calc(var(--stem-h) - (var(--ring-size) / 2));
       transform: translateX(-50%);
       width:var(--ring-size); height:var(--ring-size);
       border-radius:50%; border:2px solid currentColor; opacity:.85;
@@ -162,7 +159,7 @@
     }
     .pin .ring2{
       position:absolute; left:50%;
-      bottom: calc(var(--stem-h) - (var(--ring2-size) / 2));    /* only for .home */
+      bottom: calc(var(--stem-h) - (var(--ring2-size) / 2));
       transform: translateX(-50%);
       width:var(--ring2-size); height:var(--ring2-size);
       border-radius:50%; border:2px solid currentColor; opacity:.7;
@@ -177,7 +174,6 @@
       --ring2-size: 38px;
     }
     .pin.home .dot{ box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.2), 0 0 8px rgba(0,100,0,.35); }
-
     .pin:hover .ring{ animation-duration:1.05s; }
 
     @keyframes ping{
@@ -191,44 +187,44 @@
       100%{ transform:translateX(-50%) scale(1.9); opacity:0; }
     }
 
-    /* ==== COLLAB CARDS (80% size + edge clamp) ==== */
-    .pin .card{
-      position:absolute; left:50%; bottom: calc(var(--stem-h) + var(--dot-size) + 10px);
-      transform: translate(calc(-50% + var(--card-shift)), -8px) scale(.98);
-      width:208px;                                 /* 80% of previous 260px */
-      max-width: min(208px, calc(100% - 24px));    /* never overflow on tiny screens */
+    /* ==== COLLAB CARDS (≈4 cm, appear to the right when possible) ==== */
+    .collab-card{
+      position:absolute; /* positioned in px by JS within .collab-static */
+      width:3.9cm;                                  /* ~4 cm */
+      max-width: min(3.9cm, calc(100% - 24px));     /* safe on tiny maps */
       background:#fff; border:1px solid #e6e6e6; border-radius:10px;
       box-shadow:0 6px 22px rgba(0,0,0,.14);
       padding:.55rem .65rem .65rem;
       opacity:0; visibility:hidden;
-      transition:opacity .18s ease, transform .18s ease, visibility .18s;
+      transition:opacity .18s ease, visibility .18s ease;
       z-index:10;
+      pointer-events:auto;
     }
-    .pin .card-caret{
-      position:absolute; bottom:-8px;
-      left: calc(50% - var(--card-shift)); transform:translateX(-50%);
-      width:0; height:0;
-      border:8px solid transparent; border-top-color:#fff;
-      filter:drop-shadow(0 1px 0 rgba(0,0,0,.08));
-    }
-    .pin .card-title{
+    .collab-card.open{ opacity:1; visibility:visible; }
+
+    .collab-card .card-title{
       font-weight:700; font-size:.9rem; margin:0 0 .2rem; color:#0b1a0b;
     }
-    .pin .card-body{
+    .collab-card .card-body{
       font-size:.85rem; color:#222; line-height:1.35; word-wrap:break-word;
     }
 
-    /* show card on hover/focus/toggled */
-    .pin:hover .card,
-    .pin:focus-visible .card,
-    .pin.open .card{
-      opacity:1; visibility:visible; transform: translate(calc(-50% + var(--card-shift)), 0) scale(1);
+    /* caret that points to the pin; flips based on placement */
+    .collab-caret{
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:0; height:0; filter:drop-shadow(0 1px 0 rgba(0,0,0,.08));
+    }
+    .collab-card.place-right .collab-caret{
+      left:-8px; border:8px solid transparent; border-right-color:#fff;  /* arrow -> right */
+    }
+    .collab-card.place-left .collab-caret{
+      right:-8px; border:8px solid transparent; border-left-color:#fff;  /* arrow -> left */
     }
 
-    /* Inactive collaborators: muted pin; card still shows on hover */
+    /* Inactive collaborators: muted pin; card still appears */
     .pin.inactive{ opacity:.55; filter:grayscale(.2); }
     .pin.inactive:hover{ opacity:1; filter:none; z-index:6; }
-    .pin.inactive .card{ border-style:dashed; }
+    .collab-card.inactive{ border-style:dashed; }
 
     /* Colors */
     .c-de{ color:#0ea5e9 } /* Germany */
@@ -237,12 +233,10 @@
     .c-uk{ color:#ef4444 } /* UK */
     .c-fi{ color:var(--accent) } /* Finland */
 
-    /* Motion reduction */
     @media (prefers-reduced-motion: reduce){
       .ring, .ring2{ animation:none !important; }
     }
 
-    /* Print */
     @media print{
       @page{ size:A4; margin:18mm 22mm; }
       body{ max-width:none; margin:0; padding:0; }
@@ -447,8 +441,7 @@
      *   x% = (lon + 180) / 360 * 100
      *   y% = (90  -  lat) / 180 * 100
      * 'home:true' -> stronger double pulse.
-     * 'active:false' -> muted pin.
-     * 'title' + 'desc' -> card content (desc truncated to 30 words).
+     * Cards (~4 cm) appear to the RIGHT of the pin if there's space, otherwise LEFT.
      */
 
     const SITES = [
@@ -491,86 +484,101 @@
       return words.length <= max ? str : words.slice(0, max).join(" ") + "…";
     }
 
+    const MODELS = []; // {pin, card, xPct, yPct, active}
+
     function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
 
     function layoutCards(){
       const container = document.querySelector('.collab-static');
-      const pins = document.querySelectorAll('#pins .pin');
-      if (!container || !pins.length) return;
-
       const cw = container.clientWidth;
-      const pad = 8; // keep a bit of breathing room from the edges
+      const ch = container.clientHeight;
+      const pad = 8;       // breathing room inside the map
+      const gap = 12;      // distance from pin to card
 
-      pins.forEach(pin => {
-        const card = pin.querySelector('.card');
-        if (!card) return;
-
-        // Reset any previous shift before measuring
-        pin.style.setProperty('--card-shift', '0px');
-
-        // Pin center X in px (from left edge of container)
-        const xPct = parseFloat(pin.style.left || "0");
+      MODELS.forEach(({pin, card, xPct, yPct}) => {
+        // Pin center in px
         const centerX = cw * (xPct / 100);
+        const centerY = ch * (yPct / 100);
 
-        // Actual card width after CSS max-width
-        const cardWidth = Math.min(card.offsetWidth || 208, cw - 2*pad);
+        // Use current measured size (works with visibility:hidden)
+        const w = Math.min(card.offsetWidth || 150, cw - 2*pad);
+        const h = Math.min(card.offsetHeight || 90, ch - 2*pad);
 
-        // Natural left of card (centered under pin)
-        const naturalLeft = centerX - cardWidth / 2;
+        // Prefer RIGHT side
+        let left = centerX + gap;
+        let placeRight = true;
+        if (left + w + pad > cw) {
+          left = centerX - gap - w;
+          placeRight = false;
+        }
+        // Clamp horizontally just in case
+        left = clamp(left, pad, cw - w - pad);
 
-        // Clamp card fully inside container
-        const clampedLeft = clamp(naturalLeft, pad, cw - cardWidth - pad);
+        // Vertical center; clamp inside
+        let top = centerY - h/2;
+        top = clamp(top, pad, ch - h - pad);
 
-        // Convert clamp to a pixel shift applied in transform via CSS var
-        const shiftPx = clampedLeft - naturalLeft;
-        pin.style.setProperty('--card-shift', shiftPx + 'px');
+        // Apply
+        card.style.left = left + 'px';
+        card.style.top  = top + 'px';
+        card.classList.toggle('place-right', placeRight);
+        card.classList.toggle('place-left', !placeRight);
       });
     }
 
     (function placePins(){
       const mount = document.getElementById("pins");
       mount.innerHTML = "";
+      MODELS.length = 0;
 
       SITES.forEach(s => {
-        const x = ((s.lon + 180) / 360) * 100;  // % from left
-        const y = ((90  -  s.lat) / 180) * 100; // % from top
+        const xPct = ((s.lon + 180) / 360) * 100;  // % from left
+        const yPct = ((90  -  s.lat) / 180) * 100; // % from top
 
+        // --- Pin (dot + pulses + stem)
         const pin = document.createElement("div");
         pin.className = `pin ${s.cls || ""} ${s.active === false ? "inactive" : ""} ${s.home ? "home" : ""}`;
-        pin.style.left = x + "%";
-        pin.style.top  = y + "%";
+        pin.style.left = xPct + "%";
+        pin.style.top  = yPct + "%";
         pin.setAttribute("tabindex", "0");
         pin.setAttribute("aria-label", s.title || s.desc || "collaborator");
 
-        // pieces: stem + rings + dot + card (+ caret)
         const stem  = document.createElement("div"); stem.className  = "stem";
         const ring  = document.createElement("div"); ring.className  = "ring";
         const dot   = document.createElement("div"); dot.className   = "dot";
-
-        const card  = document.createElement("div"); card.className = "card";
-        const caret = document.createElement("div"); caret.className = "card-caret";
-        const title = document.createElement("div"); title.className = "card-title"; title.textContent = s.title || "";
-        const body  = document.createElement("div"); body.className  = "card-body";  body.textContent  = truncateWords(s.desc || "", 30);
-        card.append(title, body, caret);
-
         pin.append(stem, ring, dot);
         if (s.home){
           const ring2 = document.createElement("div"); ring2.className = "ring2";
           pin.append(ring2);
         }
-        pin.append(card);
+        mount.appendChild(pin);
 
-        // Tap or Enter/Space toggles the card (for touch/keyboard)
-        pin.addEventListener("click", () => pin.classList.toggle("open"));
-        pin.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pin.classList.toggle("open"); }
-          if (e.key === "Escape") { pin.classList.remove("open"); }
+        // --- Collab card (sibling inside #pins; positioned in px)
+        const card  = document.createElement("div");
+        card.className = `collab-card ${s.active === false ? "inactive" : ""}`;
+        const caret = document.createElement("div"); caret.className = "collab-caret";
+        const title = document.createElement("div"); title.className = "card-title"; title.textContent = s.title || "";
+        const body  = document.createElement("div"); body.className  = "card-body";  body.textContent  = truncateWords(s.desc || "", 30);
+        card.append(title, body, caret);
+        mount.appendChild(card);
+
+        // Hover/focus/tap behavior
+        const open = () => card.classList.add('open');
+        const close = () => card.classList.remove('open');
+        pin.addEventListener('mouseenter', open);
+        pin.addEventListener('mouseleave', close);
+        card.addEventListener('mouseenter', open);
+        card.addEventListener('mouseleave', close);
+        pin.addEventListener('click', () => card.classList.toggle('open'));
+        pin.addEventListener('keydown', (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.classList.toggle('open'); }
+          if (e.key === "Escape") { close(); }
         });
 
-        mount.appendChild(pin);
+        MODELS.push({pin, card, xPct, yPct});
       });
 
-      // After pins are in the DOM, compute card shifts
+      // After DOM is ready / image loaded, compute card positions
       const img = document.querySelector('.collab-static img.map');
       if (img && !img.complete){
         img.addEventListener('load', layoutCards, { once:true });
