@@ -19,7 +19,7 @@
       --badge-bg-hover:#7C3AED;      /* slightly brighter purple */
       --badge-text:#ffffff;
       --badge-ring:rgba(124,58,237,.35);
-      --badge-font:0.8rem;           /* fixed var name */
+      --badge-font:0.8rem;
       --collab-scale:.75;            /* 75% width for the map section */
     }
 
@@ -41,7 +41,7 @@
     a{ color:#004d99; text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
-    /* Fancy section divider */
+    /* Divider */
     .rule{height:0px; border-bottom:3px dashed #000; width:850px; margin:.5rem 0 1rem;}
 
     /* Masthead */
@@ -52,60 +52,31 @@
       align-items:center;
       margin-bottom:8px;
     }
-    .titleblock .subtitle{
-      color:var(--muted);
-      font-weight:600;
-      margin:0 0 .25rem 0;
-    }
+    .titleblock .subtitle{ color:var(--muted); font-weight:600; margin:0 0 .25rem 0; }
     .contact{ margin:.35rem 0 0 0; color:#333; font-size:.95rem; }
     .contact a{ color:#0b5cab; }
-
     .avatar{
-      width:112px; height:112px;
-      object-fit:cover;
-      border-radius:80%;
-      border:3px solid #e6efe6;
-      box-shadow:0 4px 14px rgba(0,0,0,.08);
+      width:112px; height:112px; object-fit:cover;
+      border-radius:80%; border:3px solid #e6efe6; box-shadow:0 4px 14px rgba(0,0,0,.08);
     }
 
     .tech-inline{
-      font-style:italic;
-      font-weight:500;
-      letter-spacing:.15px;
+      font-style:italic; font-weight:500; letter-spacing:.15px;
       font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
     }
 
     /* Cards */
     .bio-card, .research-card {
-      position: relative;
-      background-color: #f7f9ff;
-      border-radius: 10px;
-      padding: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      margin-bottom: 0rem;
+      position: relative; background-color: #f7f9ff; border-radius: 10px; padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: transform .3s ease, box-shadow .3s ease; margin-bottom: 0rem;
     }
-    .bio-card:hover, .research-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-    }
-    .bio-card .marker, .research-card .marker {
-      width: 16px; height: 16px; background-color: var(--accent);
-      border-radius: 50%; position: absolute; top: 16px; left: 16px;
-    }
-    .bio-card p, .research-card p {
-      margin-left: 30px; font-size: 0.95rem; color: #333; line-height: 1.5;
-    }
-    .research-card h3 {
-      margin-top: 0; margin-left: 30px; font-size: 1.05rem; color: #0b1a0b;
-    }
+    .bio-card:hover, .research-card:hover { transform: translateY(-4px); box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
+    .bio-card .marker, .research-card .marker { width: 16px; height: 16px; background-color: var(--accent); border-radius: 50%; position: absolute; top: 16px; left: 16px; }
+    .bio-card p, .research-card p { margin-left: 30px; font-size: 0.95rem; color: #333; line-height: 1.5; }
+    .research-card h3 { margin-top: 0; margin-left: 30px; font-size: 1.05rem; color: #0b1a0b; }
 
-    /* Grid layout for multiple research cards */
-    .research-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
-    }
+    .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 
-    /* Bio callout */
     .bio{
       background:linear-gradient(180deg, #f5fbf5, #ffffff);
       border:1px solid #e4efe4; border-left:4px solid var(--accent);
@@ -113,53 +84,30 @@
     }
     .bio p{ margin:.35rem 0; }
 
-    /* Lists tighter for CV */
     ul{ margin:.25rem 0 .75rem 1.25rem; }
     li{ margin:.15rem 0; }
 
-    /* Small screens */
     @media (max-width:560px){
       .masthead{ grid-template-columns:1fr; text-align:left; }
       .avatar{ width:112px; height:112px; justify-self:start; }
     }
 
-    /* Tech badges */
-    .tech-badges{
-      display:inline-flex; flex-wrap:wrap; gap:.08rem; vertical-align:middle;
-    }
+    /* Badges */
+    .tech-badges{ display:inline-flex; flex-wrap:wrap; gap:.08rem; vertical-align:middle; }
     .badge{
-      display:inline-flex; align-items:center;
-      padding:.20rem .25rem; border-radius:999px;
-      background:var(--badge-bg); color:var(--badge-text);
-      font-style:italic; font-weight:500; letter-spacing:.2px; line-height:1;
-      box-shadow:0 1px 2px rgba(0,0,0,.06);
-      transition: transform .15s, box-shadow .15s, background-color .15s;
-      font-size:var(--badge-font);
+      display:inline-flex; align-items:center; padding:.20rem .25rem; border-radius:999px;
+      background:var(--badge-bg); color:var(--badge-text); font-style:italic; font-weight:500; letter-spacing:.2px; line-height:1;
+      box-shadow:0 1px 2px rgba(0,0,0,.06); transition: transform .15s, box-shadow .15s, background-color .15s; font-size:var(--badge-font);
     }
-    .badge:hover{
-      background:var(--badge-bg-hover);
-      transform:translateY(-1px);
-      box-shadow:0 4px 12px rgba(0,0,0,.12), 0 0 0 1px var(--badge-ring) inset;
-    }
+    .badge:hover{ background:var(--badge-bg-hover); transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,.12), 0 0 0 1px var(--badge-ring) inset; }
 
-    /* Subprojects inside a research card */
     .subprojects{ display:grid; gap:.5rem; margin-top:.5rem; }
     .subproject{
-      display:flex; align-items:center; gap:.5rem;
-      background:var(--subproject-bg);
-      border:1px solid var(--subproject-border);
-      border-radius:10px;
-      padding:.45rem .6rem;
-      box-shadow:0 1px 3px rgba(0,0,0,.05);
-      text-decoration:none; color:inherit;
+      display:flex; align-items:center; gap:.5rem; background:var(--subproject-bg); border:1px solid var(--subproject-border);
+      border-radius:10px; padding:.45rem .6rem; box-shadow:0 1px 3px rgba(0,0,0,.05); text-decoration:none; color:inherit;
       transition:transform .15s, box-shadow .15s, background .15s;
     }
-    .subproject:hover{
-      transform:translateY(-1px);
-      box-shadow:0 4px 12px rgba(0,0,0,.1);
-      background:var(--subproject-bg-hover);
-      text-decoration:none;
-    }
+    .subproject:hover{ transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,.1); background:var(--subproject-bg-hover); text-decoration:none; }
     .subproject .icon{ width:16px; height:16px; flex:0 0 auto; opacity:.75 }
     .subproject .title{ font-weight:600; }
     .subproject .spacer{ flex:1 1 auto; }
@@ -167,83 +115,77 @@
 
     /* --- Ongoing collaborations: static map + pins --- */
     .collab-static{
-      position:relative;  /* pins anchor here */
-      border:1px solid #e4efe4; border-radius:12px; overflow:hidden;
+      position:relative; border:1px solid #e4efe4; border-radius:12px; overflow:hidden;
       box-shadow:0 2px 6px rgba(0,0,0,.06); background:#fff;
-      width:calc(100% * var(--collab-scale));   /* shrink to 75% width */
-      margin:.6rem auto;                        /* center */
+      width:calc(100% * var(--collab-scale)); margin:.6rem auto;
     }
-    @media (max-width:560px){
-      .collab-static{ width:100%; }             /* full width on phones */
-    }
+    @media (max-width:560px){ .collab-static{ width:100%; } }
 
-    .collab-static img.map{
-      width:100%; height:auto; display:block;
-      background:linear-gradient(180deg,#f3faf4,#ffffff);
-    }
-    .collab-static #pins{
-      position:absolute; inset:0; pointer-events:none; z-index:2; /* overlay matches image bounds */
-    }
+    .collab-static img.map{ width:100%; height:auto; display:block; background:linear-gradient(180deg,#f3faf4,#ffffff); }
+    .collab-static #pins{ position:absolute; inset:0; pointer-events:auto; z-index:2; } /* allow hover */
 
     .pin{
-      position:absolute;
-      transform:translate(-50%,-100%);  /* center on dot, label above */
-      pointer-events:auto;               /* allow hover on pin */
-      cursor:default;
-      transition:filter .15s ease, opacity .15s ease;
+      position:absolute; transform:translate(-50%,-100%); pointer-events:auto; cursor:default;
+      transition:filter .15s ease, opacity .15s ease; outline:none;
     }
     .pin .dot{
       width:10px; height:10px; border-radius:50%;
-      background: currentColor;
-      box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15);
-      margin:0 auto;
-      transition:transform .12s ease;
+      background: currentColor; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15);
+      margin:0 auto; transition:transform .12s ease;
     }
     .pin .ring{
-      position:absolute; left:50%; top:50%;
-      width:22px; height:22px; transform:translate(-50%,-50%);
-      border-radius:50%;
-      border:2px solid currentColor; opacity:.85;
-      animation:ping 1.6s ease-out infinite;
+      position:absolute; left:50%; top:50%; width:22px; height:22px; transform:translate(-50%,-50%);
+      border-radius:50%; border:2px solid currentColor; opacity:.85; animation:ping 1.6s ease-out infinite;
     }
-    .pin:hover .ring{ animation-duration:1.05s; } /* snappier pulse on hover */
+    .pin:hover .ring{ animation-duration:1.05s; }
     .pin:hover .dot{ transform:scale(1.15); }
+
+    /* Stronger, different pulse for HOME (UEF) */
+    .pin.home .dot{ width:12px; height:12px; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.2), 0 0 8px rgba(0,100,0,.35); }
+    .pin.home .ring{
+      width:28px; height:28px; border-width:3px; animation:pingStrong 1.1s ease-out infinite;
+    }
+    .pin.home .ring2{
+      position:absolute; left:50%; top:50%; width:38px; height:38px; transform:translate(-50%,-50%);
+      border-radius:50%; border:2px solid currentColor; opacity:.7; animation:pingStrong 1.6s .25s ease-out infinite;
+    }
 
     @keyframes ping{
       0% { transform:translate(-50%,-50%) scale(.2); opacity:.85; }
       70%{ transform:translate(-50%,-50%) scale(1.5); opacity:0; }
       100%{ transform:translate(-50%,-50%) scale(1.6); opacity:0; }
     }
+    @keyframes pingStrong{
+      0% { transform:translate(-50%,-50%) scale(.22); opacity:.95; }
+      65%{ transform:translate(-50%,-50%) scale(1.8); opacity:0; }
+      100%{ transform:translate(-50%,-50%) scale(1.9); opacity:0; }
+    }
 
+    /* Labels: hidden by default; pop up on hover/focus */
     .pin .label{
-      margin-top:.28rem;
-      font-size:.85rem; line-height:1; color:#111;
-      background:#fff; border:1px solid #e6e6e6; border-radius:6px;
-      padding:.2rem .35rem; white-space:nowrap;
+      margin-top:.28rem; font-size:.85rem; line-height:1; color:#111; background:#fff;
+      border:1px solid #e6e6e6; border-radius:6px; padding:.2rem .35rem; white-space:nowrap;
       box-shadow:0 2px 8px rgba(0,0,0,.08);
-      transition:opacity .15s ease, transform .15s ease;
+      opacity:0; visibility:hidden; transform:translateY(-4px) scale(.96);
+      transition:opacity .15s ease, transform .15s ease, visibility .15s;
+    }
+    .pin:hover .label, .pin:focus-visible .label{
+      opacity:1; visibility:visible; transform:translateY(0) scale(1);
     }
 
-    /* Inactive collaborator styling: muted by default; pops out on hover */
+    /* Inactive collaborators: muted dot/ring; label still pops on hover */
     .pin.inactive{ opacity:.55; filter:grayscale(.2); }
-    .pin.inactive .label{
-      opacity:0; transform:translateY(-4px) scale(.96);
-      font-style:italic;
-      border-style:dashed;
-    }
     .pin.inactive:hover{ opacity:1; filter:none; z-index:3; }
-    .pin.inactive:hover .label{
-      opacity:1; transform:translateY(0) scale(1);
-    }
+    .pin.inactive .label{ font-style:italic; border-style:dashed; }
 
-    /* pin colors */
+    /* Colors */
     .c-de{ color:#0ea5e9 } /* Germany */
     .c-us{ color:#22c55e } /* USA */
     .c-cn{ color:#f59e0b } /* China */
     .c-uk{ color:#ef4444 } /* UK */
     .c-fi{ color:var(--accent) } /* Finland */
 
-    /* Print/PDF styles */
+    /* Print */
     @media print{
       @page{ size:A4; margin:18mm 22mm; }
       body{ max-width:none; margin:0; padding:0; }
@@ -438,9 +380,8 @@
   <!-- Ongoing collaborations (static map with pins) -->
   <h2>Ongoing collaborations</h2>
   <section class="collab-static" aria-label="Static map with collaboration pins">
-    <!-- Equirectangular world map (2:1). Replace file name if needed. -->
     <img class="map" src="worldmap.jpg" alt="World map (equirectangular)" loading="lazy" decoding="async" />
-    <div id="pins" aria-hidden="true"></div>
+    <div id="pins" aria-hidden="false"></div>
   </section>
 
   <script>
@@ -448,36 +389,54 @@
      * Equirectangular positioning:
      *   x% = (lon + 180) / 360 * 100
      *   y% = (90  -  lat) / 180 * 100
-     * Mark collaborators inactive with active:false — their label pops out on hover.
+     * Set 'home:true' for UEF to get the stronger double pulse.
+     * Mark collaborators inactive with active:false (muted until hover).
      */
     const SITES = [
-      { label: "UEF — Joensuu, FI",     lat: 62.6,   lon: 29.8,    cls: "c-fi", active: true  },
+      { label: "UEF — Joensuu, FI",     lat: 62.6,   lon: 29.8,    cls: "c-fi", active: true,  home: true },
       { label: "Germany — Berlin",      lat: 52.5200,lon: 13.4050, cls: "c-de", active: true  },
       { label: "USA — Washington, DC",  lat: 38.9072,lon:-77.0369, cls: "c-us", active: true  },
       { label: "China — Beijing",       lat: 39.9042,lon:116.4074, cls: "c-cn", active: true  },
       { label: "UK — London",           lat: 51.5074,lon: -0.1278, cls: "c-uk", active: true  },
-
-      // EXAMPLE: mark a collaborator as not currently active
+      // Example inactive:
       // { label: "USA — Cambridge, MA", lat: 42.3736, lon: -71.1097, cls: "c-us", active:false },
     ];
 
     (function placePins(){
       const mount = document.getElementById("pins");
       mount.innerHTML = "";
+
       SITES.forEach(s => {
         const x = ((s.lon + 180) / 360) * 100;  // % from left
         const y = ((90  -  s.lat) / 180) * 100; // % from top
 
         const pin = document.createElement("div");
-        pin.className = `pin ${s.cls || ""} ${s.active === false ? "inactive" : ""}`;
+        pin.className = `pin ${s.cls || ""} ${s.active === false ? "inactive" : ""} ${s.home ? "home" : ""}`;
         pin.style.left = x + "%";
         pin.style.top  = y + "%";
+        pin.setAttribute("tabindex", "0");           // focus = show label
+        pin.setAttribute("aria-label", s.label);
 
+        // rings + dot + label
         const ring = document.createElement("div"); ring.className = "ring";
         const dot  = document.createElement("div"); dot.className  = "dot";
         const label= document.createElement("div"); label.className= "label"; label.textContent = s.label || "";
 
-        pin.append(ring, dot, label);
+        pin.append(ring, dot);
+        if (s.home){
+          const ring2 = document.createElement("div"); ring2.className = "ring2";
+          pin.append(ring2);
+        }
+        pin.append(label);
+
+        // Optional: tap to toggle label on touch devices
+        pin.addEventListener("click", () => {
+          const shown = pin.classList.toggle("show-label");
+          label.style.opacity = shown ? "1" : "";
+          label.style.visibility = shown ? "visible" : "";
+          label.style.transform = shown ? "translateY(0) scale(1)" : "";
+        });
+
         mount.appendChild(pin);
       });
     })();
