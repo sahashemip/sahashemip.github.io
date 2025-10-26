@@ -85,7 +85,7 @@
 
     @media (max-width:560px){
       .masthead{ grid-template-columns:1fr; text-align:left; }
-      .avatar{ width:112px; height:112px; justify-self:start; }
+      .avatar{ width:96px; height:96px; justify-self:start; }
     }
 
     /* Badges */
@@ -126,6 +126,7 @@
       --dot-size: 10px;
       --ring-size: 22px;
       --ring2-size: 0px;             /* 0 unless .home */
+      --card-shift: 0px;             /* computed in JS to keep cards inside */
       z-index:1; transition:filter .15s ease, opacity .15s ease;
     }
     .pin:hover{ z-index:6; }
@@ -190,49 +191,39 @@
       100%{ transform:translateX(-50%) scale(1.9); opacity:0; }
     }
 
-    /* ==== COLLAB CARDS ==== */
+    /* ==== COLLAB CARDS (80% size + edge clamp) ==== */
     .pin .card{
       position:absolute; left:50%; bottom: calc(var(--stem-h) + var(--dot-size) + 10px);
-      transform: translate(-50%, -8px) scale(.98);
-      width:260px; max-width: calc(100vw - 32px);
+      transform: translate(calc(-50% + var(--card-shift)), -8px) scale(.98);
+      width:208px;                                 /* 80% of previous 260px */
+      max-width: min(208px, calc(100% - 24px));    /* never overflow on tiny screens */
       background:#fff; border:1px solid #e6e6e6; border-radius:10px;
       box-shadow:0 6px 22px rgba(0,0,0,.14);
-      padding:.6rem .7rem .7rem;
+      padding:.55rem .65rem .65rem;
       opacity:0; visibility:hidden;
       transition:opacity .18s ease, transform .18s ease, visibility .18s;
       z-index:10;
     }
-    .pin .card::after{
-      content:""; position:absolute; left:50%; bottom:-8px; transform:translateX(-50%);
-      width:0; height:0; border:8px solid transparent; border-top-color:#fff;
+    .pin .card-caret{
+      position:absolute; bottom:-8px;
+      left: calc(50% - var(--card-shift)); transform:translateX(-50%);
+      width:0; height:0;
+      border:8px solid transparent; border-top-color:#fff;
       filter:drop-shadow(0 1px 0 rgba(0,0,0,.08));
     }
     .pin .card-title{
-      font-weight:700; font-size:.92rem; margin:0 0 .25rem; color:#0b1a0b;
+      font-weight:700; font-size:.9rem; margin:0 0 .2rem; color:#0b1a0b;
     }
     .pin .card-body{
-      font-size:.9rem; color:#222; line-height:1.35; word-wrap:break-word;
+      font-size:.85rem; color:#222; line-height:1.35; word-wrap:break-word;
     }
 
     /* show card on hover/focus/toggled */
     .pin:hover .card,
     .pin:focus-visible .card,
     .pin.open .card{
-      opacity:1; visibility:visible; transform: translate(-50%, 0) scale(1);
+      opacity:1; visibility:visible; transform: translate(calc(-50% + var(--card-shift)), 0) scale(1);
     }
-
-    /* Edge handling: shift card when near sides */
-    .pin.align-left .card{ left:0; transform: translate(0, -8px) scale(.98); }
-    .pin.align-left:hover .card,
-    .pin.align-left.open .card,
-    .pin.align-left:focus-visible .card{ transform: translate(0, 0) scale(1); }
-    .pin.align-left .card::after{ left:14px; transform:none; }
-
-    .pin.align-right .card{ left:auto; right:0; transform: translate(0, -8px) scale(.98); }
-    .pin.align-right:hover .card,
-    .pin.align-right.open .card,
-    .pin.align-right:focus-visible .card{ transform: translate(0,0) scale(1); }
-    .pin.align-right .card::after{ left:auto; right:14px; transform:none; }
 
     /* Inactive collaborators: muted pin; card still shows on hover */
     .pin.inactive{ opacity:.55; filter:grayscale(.2); }
@@ -477,11 +468,6 @@
         lat: 38.9072, lon:-77.0369, cls: "c-us", active: true
       },
       {
-        title: "China — Beijing",
-        desc:  "Collaborator: Dr. Wei Zhang. Metal–oxide interfaces; GPUMD/NEP force-field development and benchmarking.",
-        lat: 39.9042, lon:116.4074, cls: "c-cn", active: true
-      },
-      {
         title: "UK — London",
         desc:  "Collaborator: Dr. Sara Khan. Raman and photoluminescence workflows for layered materials under strain.",
         lat: 51.5074, lon:-0.1278, cls: "c-uk", active: true
@@ -494,25 +480,51 @@
         lat: 42.3736, lon:-71.1097, cls: "c-us", active: false
       },
       {
-        title: "Germany — Munich",
-        desc:  "Collaborator: Prof. Lena Hoffmann. Catalysis on hBN/SiC: adsorption kinetics and supported metal clusters.",
-        lat: 48.1374, lon: 11.5755, cls: "c-de", active: false
-      },
-      {
         title: "China — Shanghai",
         desc:  "Collaborator: Dr. Li Chen. Battery electrolytes: data curation, surrogate models, and uncertainty quantification.",
         lat: 31.2304, lon:121.4737, cls: "c-cn", active: false
-      },
-      {
-        title: "UK — Oxford",
-        desc:  "Collaborator: Prof. Tom Williams. Quantum defects in carbides; spectroscopic fingerprints and ab-initio predictions.",
-        lat: 51.7520, lon:-1.2577, cls: "c-uk", active: false
       }
     ];
 
     function truncateWords(str, max){
       const words = (str || "").trim().split(/\s+/);
       return words.length <= max ? str : words.slice(0, max).join(" ") + "…";
+    }
+
+    function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+    function layoutCards(){
+      const container = document.querySelector('.collab-static');
+      const pins = document.querySelectorAll('#pins .pin');
+      if (!container || !pins.length) return;
+
+      const cw = container.clientWidth;
+      const pad = 8; // keep a bit of breathing room from the edges
+
+      pins.forEach(pin => {
+        const card = pin.querySelector('.card');
+        if (!card) return;
+
+        // Reset any previous shift before measuring
+        pin.style.setProperty('--card-shift', '0px');
+
+        // Pin center X in px (from left edge of container)
+        const xPct = parseFloat(pin.style.left || "0");
+        const centerX = cw * (xPct / 100);
+
+        // Actual card width after CSS max-width
+        const cardWidth = Math.min(card.offsetWidth || 208, cw - 2*pad);
+
+        // Natural left of card (centered under pin)
+        const naturalLeft = centerX - cardWidth / 2;
+
+        // Clamp card fully inside container
+        const clampedLeft = clamp(naturalLeft, pad, cw - cardWidth - pad);
+
+        // Convert clamp to a pixel shift applied in transform via CSS var
+        const shiftPx = clampedLeft - naturalLeft;
+        pin.style.setProperty('--card-shift', shiftPx + 'px');
+      });
     }
 
     (function placePins(){
@@ -530,19 +542,16 @@
         pin.setAttribute("tabindex", "0");
         pin.setAttribute("aria-label", s.title || s.desc || "collaborator");
 
-        // near edges? shift card alignment
-        if (x < 15) pin.classList.add("align-left");
-        else if (x > 85) pin.classList.add("align-right");
-
-        // pieces: stem + rings + dot + card
+        // pieces: stem + rings + dot + card (+ caret)
         const stem  = document.createElement("div"); stem.className  = "stem";
         const ring  = document.createElement("div"); ring.className  = "ring";
         const dot   = document.createElement("div"); dot.className   = "dot";
 
         const card  = document.createElement("div"); card.className = "card";
+        const caret = document.createElement("div"); caret.className = "card-caret";
         const title = document.createElement("div"); title.className = "card-title"; title.textContent = s.title || "";
         const body  = document.createElement("div"); body.className  = "card-body";  body.textContent  = truncateWords(s.desc || "", 30);
-        card.append(title, body);
+        card.append(title, body, caret);
 
         pin.append(stem, ring, dot);
         if (s.home){
@@ -560,7 +569,18 @@
 
         mount.appendChild(pin);
       });
+
+      // After pins are in the DOM, compute card shifts
+      const img = document.querySelector('.collab-static img.map');
+      if (img && !img.complete){
+        img.addEventListener('load', layoutCards, { once:true });
+      } else {
+        layoutCards();
+      }
     })();
+
+    // Recompute on resize/orientation changes
+    window.addEventListener('resize', layoutCards);
   </script>
 
 </body>
