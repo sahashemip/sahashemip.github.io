@@ -19,7 +19,8 @@
       --badge-bg-hover:#7C3AED;      /* slightly brighter purple */
       --badge-text:#ffffff;
       --badge-ring:rgba(124,58,237,.35);
-      --badge-font:0.8rem;           /* fixed var name (two dashes) */
+      --badge-font:0.8rem;           /* fixed var name */
+      --collab-scale:.75;            /* 75% width for the map section */
     }
 
     html, body { direction:ltr; text-align:left; }
@@ -43,7 +44,7 @@
     /* Fancy section divider */
     .rule{height:0px; border-bottom:3px dashed #000; width:850px; margin:.5rem 0 1rem;}
 
-    /* Masthead: name/title left, image right */
+    /* Masthead */
     .masthead{
       display:grid;
       grid-template-columns: 1fr auto;
@@ -74,7 +75,7 @@
       font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
     }
 
-    /* Bio / research card style */
+    /* Cards */
     .bio-card, .research-card {
       position: relative;
       background-color: #f7f9ff;
@@ -166,28 +167,37 @@
 
     /* --- Ongoing collaborations: static map + pins --- */
     .collab-static{
-      position:relative;  /* critical: so absolutely-positioned pins anchor to this box */
+      position:relative;  /* pins anchor here */
       border:1px solid #e4efe4; border-radius:12px; overflow:hidden;
       box-shadow:0 2px 6px rgba(0,0,0,.06); background:#fff;
+      width:calc(100% * var(--collab-scale));   /* shrink to 75% width */
+      margin:.6rem auto;                        /* center */
     }
+    @media (max-width:560px){
+      .collab-static{ width:100%; }             /* full width on phones */
+    }
+
     .collab-static img.map{
       width:100%; height:auto; display:block;
       background:linear-gradient(180deg,#f3faf4,#ffffff);
     }
     .collab-static #pins{
-      position:absolute; inset:0; pointer-events:none; z-index:2; /* overlay that matches the image bounds */
+      position:absolute; inset:0; pointer-events:none; z-index:2; /* overlay matches image bounds */
     }
 
     .pin{
       position:absolute;
       transform:translate(-50%,-100%);  /* center on dot, label above */
-      pointer-events:none;               /* non-interactive */
+      pointer-events:auto;               /* allow hover on pin */
+      cursor:default;
+      transition:filter .15s ease, opacity .15s ease;
     }
     .pin .dot{
       width:10px; height:10px; border-radius:50%;
       background: currentColor;
       box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15);
       margin:0 auto;
+      transition:transform .12s ease;
     }
     .pin .ring{
       position:absolute; left:50%; top:50%;
@@ -196,17 +206,34 @@
       border:2px solid currentColor; opacity:.85;
       animation:ping 1.6s ease-out infinite;
     }
+    .pin:hover .ring{ animation-duration:1.05s; } /* snappier pulse on hover */
+    .pin:hover .dot{ transform:scale(1.15); }
+
     @keyframes ping{
       0% { transform:translate(-50%,-50%) scale(.2); opacity:.85; }
       70%{ transform:translate(-50%,-50%) scale(1.5); opacity:0; }
       100%{ transform:translate(-50%,-50%) scale(1.6); opacity:0; }
     }
+
     .pin .label{
       margin-top:.28rem;
       font-size:.85rem; line-height:1; color:#111;
       background:#fff; border:1px solid #e6e6e6; border-radius:6px;
       padding:.2rem .35rem; white-space:nowrap;
       box-shadow:0 2px 8px rgba(0,0,0,.08);
+      transition:opacity .15s ease, transform .15s ease;
+    }
+
+    /* Inactive collaborator styling: muted by default; pops out on hover */
+    .pin.inactive{ opacity:.55; filter:grayscale(.2); }
+    .pin.inactive .label{
+      opacity:0; transform:translateY(-4px) scale(.96);
+      font-style:italic;
+      border-style:dashed;
+    }
+    .pin.inactive:hover{ opacity:1; filter:none; z-index:3; }
+    .pin.inactive:hover .label{
+      opacity:1; transform:translateY(0) scale(1);
     }
 
     /* pin colors */
@@ -411,7 +438,7 @@
   <!-- Ongoing collaborations (static map with pins) -->
   <h2>Ongoing collaborations</h2>
   <section class="collab-static" aria-label="Static map with collaboration pins">
-    <!-- Use an equirectangular world map (2:1). Keep the file name you saved. -->
+    <!-- Equirectangular world map (2:1). Replace file name if needed. -->
     <img class="map" src="worldmap.jpg" alt="World map (equirectangular)" loading="lazy" decoding="async" />
     <div id="pins" aria-hidden="true"></div>
   </section>
@@ -421,16 +448,17 @@
      * Equirectangular positioning:
      *   x% = (lon + 180) / 360 * 100
      *   y% = (90  -  lat) / 180 * 100
-     * Update SITES with your real countries/states/cities.
+     * Mark collaborators inactive with active:false — their label pops out on hover.
      */
     const SITES = [
-      { label: "UEF — Joensuu, FI", lat: 62.6,  lon: 29.8,   cls: "c-fi" },
-      { label: "Germany — Berlin",  lat: 52.5200, lon: 13.4050,  cls: "c-de" },
-      { label: "USA — Washington, DC", lat: 38.9072, lon:-77.0369, cls: "c-us" },
-      { label: "China — Beijing",   lat: 39.9042, lon:116.4074, cls: "c-cn" },
-      { label: "UK — London",       lat: 51.5074, lon: -0.1278, cls: "c-uk" },
-      // Example of a specific US state/city:
-      // { label: "USA — Cambridge, MA", lat: 42.3736, lon: -71.1097, cls: "c-us" },
+      { label: "UEF — Joensuu, FI",     lat: 62.6,   lon: 29.8,    cls: "c-fi", active: true  },
+      { label: "Germany — Berlin",      lat: 52.5200,lon: 13.4050, cls: "c-de", active: true  },
+      { label: "USA — Washington, DC",  lat: 38.9072,lon:-77.0369, cls: "c-us", active: true  },
+      { label: "China — Beijing",       lat: 39.9042,lon:116.4074, cls: "c-cn", active: true  },
+      { label: "UK — London",           lat: 51.5074,lon: -0.1278, cls: "c-uk", active: true  },
+
+      // EXAMPLE: mark a collaborator as not currently active
+      // { label: "USA — Cambridge, MA", lat: 42.3736, lon: -71.1097, cls: "c-us", active:false },
     ];
 
     (function placePins(){
@@ -441,7 +469,7 @@
         const y = ((90  -  s.lat) / 180) * 100; // % from top
 
         const pin = document.createElement("div");
-        pin.className = `pin ${s.cls || ""}`;
+        pin.className = `pin ${s.cls || ""} ${s.active === false ? "inactive" : ""}`;
         pin.style.left = x + "%";
         pin.style.top  = y + "%";
 
