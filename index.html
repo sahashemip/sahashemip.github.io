@@ -145,6 +145,11 @@
       background: currentColor; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15);
       transition:transform .12s ease; z-index:2;
     }
+    /* FIX: keep translateX(-50%) when scaling so the dot doesn't jump */
+    .pin:hover .dot,
+    .pin:focus-visible .dot{
+      transform: translateX(-50%) scale(1.15);
+    }
 
     .pin .ring{
       position:absolute; left:50%;
@@ -163,9 +168,6 @@
       animation:pingStrong 1.6s .25s ease-out infinite; z-index:1;
     }
 
-    .pin:hover .ring{ animation-duration:1.05s; }
-    .pin:hover .dot{ transform:scale(1.15); }
-
     /* Stronger, different pulse for HOME (UEF) */
     .pin.home{
       --stem-h: 16px;
@@ -174,6 +176,8 @@
       --ring2-size: 38px;
     }
     .pin.home .dot{ box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.2), 0 0 8px rgba(0,100,0,.35); }
+
+    .pin:hover .ring{ animation-duration:1.05s; }
 
     @keyframes ping{
       0% { transform:translateX(-50%) scale(.2); opacity:.85; }
