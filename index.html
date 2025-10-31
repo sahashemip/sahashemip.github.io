@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
   <title>Arsalan Hashemi — Resume</title>
 
   <style>
+    /* =====================
+       THEME & DESIGN TOKENS
+       ===================== */
     :root{
-      --accent:#006400;              /* Dark green */
-      --content-width: 850px;        /* Content column width */
+      /* base palette */
+      --accent:#0b6a0b;              /* Dark green */
+      --accent-ink:#0b1a0b;
+      --content-width: 900px;        /* Content column width */
       --outer-margin: 36px;          /* Top/bottom white space on screen */
       --side-padding: 26px;          /* Left/right inner padding on screen */
       --muted:#606870;
+      --ink:#111;
+      --page:#ffffff;
+      --link:#0b5cab;
+
+      /* badges & subprojects */
       --subproject-bg:#FFFAE6;
       --subproject-bg-hover:#FFF3BF;
       --subproject-border:#F3E6A3;
@@ -21,6 +32,43 @@
       --badge-ring:rgba(124,58,237,.35);
       --badge-font:0.8rem;
       --collab-scale:.75;            /* 75% width for the map section */
+
+      /* cards & activities */
+      --radius:12px;
+      --card-bg:#f7f9ff;
+      --shadow:0 2px 6px rgba(0,0,0,0.06);
+      --shadow-lg:0 4px 14px rgba(0,0,0,0.12);
+      --paper-ink:#2563eb; /* blue */
+      --talk-ink:#dc2626;  /* red  */
+      --pos-ink:#16a34a;   /* green*/
+
+      /* map pin colors */
+      --c-de:#0ea5e9; /* Germany */
+      --c-us:#22c55e; /* USA */
+      --c-cn:#f59e0b; /* China */
+      --c-uk:#ef4444; /* UK */
+      --c-fi:#0b6a0b; /* Finland */
+    }
+
+    /* DARK THEME OVERRIDES */
+    html[data-theme="dark"]{
+      --page:#0b0f14;
+      --ink:#e8ecf1;
+      --muted:#b3bcc6;
+      --accent:#5bd977;
+      --accent-ink:#e8fff0;
+      --link:#8ab4ff;
+      --subproject-bg:#1b2330;
+      --subproject-bg-hover:#1f2a3a;
+      --subproject-border:#2a3649;
+      --badge-ring:rgba(139, 92, 246, .35);
+      --card-bg:#0f1620;
+      --shadow:0 2px 6px rgba(0,0,0,0.5);
+      --shadow-lg:0 4px 18px rgba(0,0,0,0.6);
+      --paper-ink:#60a5fa;
+      --talk-ink:#f87171;
+      --pos-ink:#4ade80;
+      --c-de:#38bdf8; --c-us:#86efac; --c-cn:#fbbf24; --c-uk:#fca5a5; --c-fi:#5bd977;
     }
 
     html, body { direction:ltr; text-align:left; }
@@ -29,52 +77,54 @@
       max-width:var(--content-width);
       margin:var(--outer-margin) auto;
       padding:0 var(--side-padding);
-      line-height:1.4;
-      color:#111;
-      background:#fff;
+      line-height:1.55;
+      color:var(--ink);
+      background:var(--page);
     }
 
     /* Headings & type */
-    h1{ font-size:2rem; margin:0 0 .25rem 0; color:#0b1a0b; letter-spacing:0.2px; }
-    h2{ font-size:1.1rem; margin:1.25rem 0 .35rem; color:var(--accent); letter-spacing:.08em; }
+    h1{ font-size:2rem; margin:0 0 .25rem 0; color:var(--accent-ink); letter-spacing:0.2px; }
+    h2{ font-size:1.1rem; margin:1.25rem 0 .35rem; color:var(--accent); letter-spacing:.08em; text-transform:uppercase; }
     p, li{ font-size:.97rem; }
-    a{ color:#004d99; text-decoration:none; }
+    a{ color:var(--link); text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
-    .rule{height:0px; border-bottom:3px dashed #000; width:850px; margin:.5rem 0 1rem;}
+    .rule{height:0px; border-bottom:3px dashed currentColor; opacity:.3; width:100%; margin:.5rem 0 1rem;}
 
     /* Masthead */
     .masthead{
       display:grid; grid-template-columns: 1fr auto; gap:20px; align-items:center; margin-bottom:8px;
     }
     .titleblock .subtitle{ color:var(--muted); font-weight:600; margin:0 0 .25rem 0; }
-    .contct{ margin:.35rem 0 0 0; color:#333; font-size:.95rem; }
-    .contact a{ color:#0b5cab; }
+    .contact{ margin:.35rem 0 0 0; color:var(--ink); font-size:.95rem; }
+    .contact a{ color:var(--link); }
     .avatar{
       width:112px; height:112px; object-fit:cover;
-      border-radius:80%; border:3px solid #e6efe6; box-shadow:0 4px 14px rgba(0,0,0,.08);
+      border-radius:80%; border:3px solid rgba(230,239,230,.35); box-shadow:0 4px 14px rgba(0,0,0,.08);
     }
 
-    .tech-inline{
-      font-style:italic; font-weight:500; letter-spacing:.15px;
-      font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
+    .actions{ display:flex; align-items:center; gap:10px; }
+    .theme-toggle{
+      border:1px solid #d8dbea; background:var(--card-bg); color:var(--accent-ink); border-radius:999px;
+      padding:.35rem .7rem; font-weight:700; cursor:pointer; box-shadow:var(--shadow);
     }
+    .theme-toggle:hover{ transform:translateY(-1px); box-shadow:var(--shadow-lg); }
 
     /* Generic cards */
     .bio-card, .research-card {
-      position: relative; background-color: #f7f9ff; border-radius: 10px; padding: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: transform .3s ease, box-shadow .3s ease; margin-bottom: 0rem;
+      position: relative; background-color: var(--card-bg); border-radius: 10px; padding: 16px;
+      box-shadow: var(--shadow); transition: transform .3s ease, box-shadow .3s ease; margin-bottom: 0rem;
     }
-    .bio-card:hover, .research-card:hover { transform: translateY(-4px); box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
+    .bio-card:hover, .research-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     .bio-card .marker, .research-card .marker { width: 16px; height: 16px; background-color: var(--accent); border-radius: 50%; position: absolute; top: 16px; left: 16px; }
-    .bio-card p, .research-card p { margin-left: 30px; font-size: 0.95rem; color: #333; line-height: 1.5; }
-    .research-card h3 { margin-top: 0; margin-left: 30px; font-size: 1.05rem; color: #0b1a0b; }
+    .bio-card p, .research-card p { margin-left: 30px; font-size: 0.95rem; color: var(--ink); line-height: 1.5; }
+    .research-card h3 { margin-top: 0; margin-left: 30px; font-size: 1.05rem; color: var(--accent-ink); }
 
     .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 
     .bio{
-      background:linear-gradient(180deg, #f5fbf5, #ffffff);
-      border:1px solid #e4efe4; border-left:4px solid var(--accent);
+      background:linear-gradient(180deg, color-mix(in sRGB, var(--accent) 3%, transparent), transparent);
+      border:1px solid color-mix(in sRGB, var(--accent) 20%, transparent); border-left:4px solid var(--accent);
       padding:14px 16px; border-radius:10px; margin:10px 0 18px;
     }
     .bio p{ margin:.35rem 0; }
@@ -82,9 +132,10 @@
     ul{ margin:.25rem 0 .75rem 1.25rem; }
     li{ margin:.15rem 0; }
 
-    @media (max-width:560px){
+    @media (max-width:680px){
       .masthead{ grid-template-columns:1fr; text-align:left; }
       .avatar{ width:112px; height:112px; justify-self:start; }
+      .research-grid{ grid-template-columns:1fr; }
     }
 
     /* Badges */
@@ -110,132 +161,48 @@
 
     /* --- Ongoing collaborations: static map + pins --- */
     .collab-static{
-      position:relative; border:1px solid #e4efe4; border-radius:12px; overflow:hidden;
-      box-shadow:0 2px 6px rgba(0,0,0,.06); background:#fff;
+      position:relative; border:1px solid color-mix(in sRGB, var(--accent) 15%, transparent); border-radius:12px; overflow:hidden;
+      box-shadow:var(--shadow); background:var(--page);
       width:calc(100% * var(--collab-scale)); margin:.6rem auto;
     }
     @media (max-width:560px){ .collab-static{ width:100%; } }
 
-    .collab-static img.map{ width:100%; height:auto; display:block; background:linear-gradient(180deg,#f3faf4,#ffffff); }
-    .collab-static #pins{ position:absolute; inset:0; pointer-events:auto; z-index:2; } /* allow hover */
+    .collab-static img.map{ width:100%; height:auto; display:block; background:linear-gradient(180deg,color-mix(in sRGB, var(--accent) 6%, transparent),transparent); }
+    .collab-static #pins{ position:absolute; inset:0; pointer-events:auto; z-index:2; }
 
-    .pin{
-      position:absolute; transform:translate(-50%,-100%); pointer-events:auto; cursor:default; outline:none;
-      --stem-h: 14px;                /* vertical stem height */
-      --dot-size: 10px;
-      --ring-size: 22px;
-      --ring2-size: 0px;             /* 0 unless .home */
-      z-index:1; transition:filter .15s ease, opacity .15s ease;
-    }
+    .pin{ position:absolute; transform:translate(-50%,-100%); pointer-events:auto; cursor:default; outline:none; color:var(--c-fi);
+      --stem-h: 14px; --dot-size: 10px; --ring-size: 22px; --ring2-size: 0px; z-index:1; transition:filter .15s ease, opacity .15s ease; }
     .pin:hover{ z-index:6; }
 
-    /* Vertical stem: from map surface (anchor) up to the marker center */
-    .pin .stem{
-      position:absolute; left:50%; bottom:0; transform:translateX(-50%);
-      width:0; height:var(--stem-h); border-left:2px solid currentColor;
-      filter:drop-shadow(0 0 1px rgba(0,0,0,.2));
-    }
+    .pin .stem{ position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:0; height:var(--stem-h); border-left:2px solid currentColor; filter:drop-shadow(0 0 1px rgba(0,0,0,.2)); }
+    .pin .dot{ position:absolute; left:50%; bottom: calc(var(--stem-h) - (var(--dot-size) / 2)); transform: translateX(-50%); width:var(--dot-size); height:var(--dot-size); border-radius:50%; background: currentColor; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15); transition:transform .12s ease; z-index:2; }
+    .pin:hover .dot, .pin:focus-visible .dot{ transform: translateX(-50%) scale(1.15);} 
+    .pin .ring{ position:absolute; left:50%; bottom: calc(var(--stem-h) - (var(--ring-size) / 2)); transform: translateX(-50%); width:var(--ring-size); height:var(--ring-size); border-radius:50%; border:2px solid currentColor; opacity:.85; animation:ping 1.6s ease-out infinite; z-index:1; }
+    .pin .ring2{ position:absolute; left:50%; bottom: calc(var(--stem-h) - (var(--ring2-size) / 2)); transform: translateX(-50%); width:var(--ring2-size); height:var(--ring2-size); border-radius:50%; border:2px solid currentColor; opacity:.7; animation:pingStrong 1.6s .25s ease-out infinite; z-index:1; }
 
-    .pin .dot{
-      position:absolute; left:50%;
-      bottom: calc(var(--stem-h) - (var(--dot-size) / 2));     /* center on stem tip */
-      transform: translateX(-50%);
-      width:var(--dot-size); height:var(--dot-size); border-radius:50%;
-      background: currentColor; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15);
-      transition:transform .12s ease; z-index:2;
-    }
-    .pin:hover .dot,
-    .pin:focus-visible .dot{
-      transform: translateX(-50%) scale(1.15); /* stays centered */
-    }
-
-    .pin .ring{
-      position:absolute; left:50%;
-      bottom: calc(var(--stem-h) - (var(--ring-size) / 2));
-      transform: translateX(-50%);
-      width:var(--ring-size); height:var(--ring-size);
-      border-radius:50%; border:2px solid currentColor; opacity:.85;
-      animation:ping 1.6s ease-out infinite; z-index:1;
-    }
-    .pin .ring2{
-      position:absolute; left:50%;
-      bottom: calc(var(--stem-h) - (var(--ring2-size) / 2));
-      transform: translateX(-50%);
-      width:var(--ring2-size); height:var(--ring2-size);
-      border-radius:50%; border:2px solid currentColor; opacity:.7;
-      animation:pingStrong 1.6s .25s ease-out infinite; z-index:1;
-    }
-
-    /* Stronger, different pulse for HOME (UEF) */
-    .pin.home{
-      --stem-h: 16px;
-      --dot-size: 12px;
-      --ring-size: 28px;
-      --ring2-size: 38px;
-    }
+    .pin.home{ --stem-h: 16px; --dot-size: 12px; --ring-size: 28px; --ring2-size: 38px; color:var(--c-fi); }
+    .pin.c-de{ color:var(--c-de); } .pin.c-us{ color:var(--c-us);} .pin.c-cn{ color:var(--c-cn);} .pin.c-uk{ color:var(--c-uk);} 
     .pin.home .dot{ box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.2), 0 0 8px rgba(0,100,0,.35); }
     .pin:hover .ring{ animation-duration:1.05s; }
 
-    @keyframes ping{
-      0% { transform:translateX(-50%) scale(.2); opacity:.85; }
-      70%{ transform:translateX(-50%) scale(1.5); opacity:0; }
-      100%{ transform:translateX(-50%) scale(1.6); opacity:0; }
-    }
-    @keyframes pingStrong{
-      0% { transform:translateX(-50%) scale(.22); opacity:.95; }
-      65%{ transform:translateX(-50%) scale(1.8); opacity:0; }
-      100%{ transform:translateX(-50%) scale(1.9); opacity:0; }
-    }
+    @keyframes ping{ 0% { transform:translateX(-50%) scale(.2); opacity:.85; } 70%{ transform:translateX(-50%) scale(1.5); opacity:0; } 100%{ transform:translateX(-50%) scale(1.6); opacity:0; } }
+    @keyframes pingStrong{ 0% { transform:translateX(-50%) scale(.22); opacity:.95; } 65%{ transform:translateX(-50%) scale(1.8); opacity:0; } 100%{ transform:translateX(-50%) scale(1.9); opacity:0; } }
 
-    /* ==== COLLAB CARDS (≈4 cm, appear to the right when possible) ==== */
+    /* ==== COLLAB CARDS (≈4 cm) ==== */
     .collab-card{
-      position:absolute; /* positioned in px by JS within .collab-static */
-      width:3.9cm;                                  /* ~4 cm */
-      max-width: min(3.9cm, calc(100% - 24px));     /* safe on tiny maps */
-      background:#fff; border:1px solid #e6e6e6; border-radius:10px;
-      box-shadow:0 6px 22px rgba(0,0,0,.14);
-      padding:.55rem .65rem .65rem;
-      opacity:0; visibility:hidden;
-      transition:opacity .18s ease, visibility .18s ease;
-      z-index:10;
-      pointer-events:auto;
-    }
+      position:absolute; width:3.9cm; max-width: min(3.9cm, calc(100% - 24px)); background:var(--page); border:1px solid #e6e6e6; border-radius:10px; box-shadow:0 6px 22px rgba(0,0,0,.14); padding:.55rem .65rem .65rem; opacity:0; visibility:hidden; transition:opacity .18s ease, visibility .18s ease; z-index:10; pointer-events:auto; }
+    html[data-theme="dark"] .collab-card{ border-color:#263244; box-shadow:0 10px 28px rgba(0,0,0,.6); }
     .collab-card.open{ opacity:1; visibility:visible; }
-
-    .collab-card .card-title{
-      font-weight:700; font-size:.9rem; margin:0 0 .2rem; color:#0b1a0b;
-    }
-    .collab-card .card-body{
-      font-size:.85rem; color:#222; line-height:1.35; word-wrap:break-word;
-    }
-
-    /* caret that points to the pin; flips based on placement */
-    .collab-caret{
-      position:absolute; top:50%; transform:translateY(-50%);
-      width:0; height:0; filter:drop-shadow(0 1px 0 rgba(0,0,0,.08));
-    }
-    .collab-card.place-right .collab-caret{
-      left:-8px; border:8px solid transparent; border-right-color:#fff;  /* arrow -> right */
-    }
-    .collab-card.place-left .collab-caret{
-      right:-8px; border:8px solid transparent; border-left-color:#fff;  /* arrow -> left */
-    }
-
-    /* Inactive collaborators: muted pin; card still appears */
+    .collab-card .card-title{ font-weight:700; font-size:.9rem; margin:0 0 .2rem; color:var(--accent-ink); }
+    .collab-card .card-body{ font-size:.85rem; color:var(--ink); line-height:1.35; word-wrap:break-word; }
+    .collab-caret{ position:absolute; top:50%; transform:translateY(-50%); width:0; height:0; filter:drop-shadow(0 1px 0 rgba(0,0,0,.08)); }
+    .collab-card.place-right .collab-caret{ left:-8px; border:8px solid transparent; border-right-color:var(--page); }
+    .collab-card.place-left  .collab-caret{ right:-8px; border:8px solid transparent; border-left-color:var(--page); }
     .pin.inactive{ opacity:.55; filter:grayscale(.2); }
     .pin.inactive:hover{ opacity:1; filter:none; z-index:6; }
     .collab-card.inactive{ border-style:dashed; }
 
-    /* Colors */
-    .c-de{ color:#0ea5e9 } /* Germany */
-    .c-us{ color:#22c55e } /* USA */
-    .c-cn{ color:#f59e0b } /* China */
-    .c-uk{ color:#ef4444 } /* UK */
-    .c-fi{ color:var(--accent) } /* Finland */
-
-    @media (prefers-reduced-motion: reduce){
-      .ring, .ring2{ animation:none !important; }
-    }
+    @media (prefers-reduced-motion: reduce){ .ring, .ring2{ animation:none !important; } }
 
     @media print{
       @page{ size:A4; margin:18mm 22mm; }
@@ -246,119 +213,36 @@
       .masthead{ grid-template-columns:1fr auto; gap:14pt; }
       .avatar{ width:98px; height:98px; }
       .rule{ margin:.3rem 0 .7rem; }
+      .theme-toggle, .collab-static{ display:none !important; }
     }
 
-    
-    /* Activities Section - Card style */
-    .activities {
-      margin-top: 2rem;
-    }
-    
-    .rail-shell {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 8px;
-      box-shadow: var(--shadow);
-      border: 1px solid #e0e5ff;
-      overflow: hidden;
-    }
-    
-    .activities-rail {
-      max-height: 280px;
-      overflow-y: auto;
-      padding: 0;
-    }
-    
-    .act-header {
-      display: grid;
-      grid-template-columns: 92px 84px 1fr auto;
-      gap: 10px;
-      padding: 10px 12px;
-      font-weight: 700;
-      color: var(--accent-ink);
-      font-size: 0.9rem;
-      border-bottom: 1px solid #d8dbea;
-      background-color: var(--card-bg);
-    }
-    .act-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 0.5rem 0 1rem;
-    }
-    
-    .pill {
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.88rem;
-      cursor: pointer;
-      background: var(--card-bg);
-      border: 1px solid #d8dbea;
-      color: var(--accent-ink);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    }
-    
-    .pill:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      background: #eef1ff;
-    }
-    
-    .pill[aria-pressed="true"] {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent-ink);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    
-    .pill[aria-pressed="true"]:hover {
-      background: #16286b; /* slightly darker accent on hover */
-      color: #fff;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-    }
-    
-    .activity-line {
-      display: grid;
-      grid-template-columns: 92px 84px 1fr auto;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      margin: 6px 4px;
-      background: #fff;
-      border-radius: var(--radius);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-    
+    /* =====================
+       ACTIVITIES SECTION
+       ===================== */
+    .activities { margin-top: 2rem; }
+    .rail-shell { background: var(--card-bg); border-radius: var(--radius); padding: 8px; box-shadow: var(--shadow); border: 1px solid #e0e5ff; overflow: hidden; }
+    html[data-theme="dark"] .rail-shell{ border-color:#354157; }
+    .activities-rail { max-height: 280px; overflow-y: auto; padding: 0; }
+    .act-header { display: grid; grid-template-columns: 92px 84px 1fr auto; gap: 10px; padding: 10px 12px; font-weight: 700; color: var(--accent-ink); font-size: 0.9rem; border-bottom: 1px solid #d8dbea; background-color: var(--card-bg); }
+    .act-controls { display: flex; flex-wrap: wrap; gap: 12px; margin: 0.5rem 0 1rem; }
+    .pill { padding: 0.35rem 0.85rem; border-radius: 999px; font-weight: 700; font-size: 0.88rem; cursor: pointer; background: var(--card-bg); border: 1px solid #d8dbea; color: var(--accent-ink); box-shadow: var(--shadow); transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
+    .pill:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); background: color-mix(in sRGB, var(--card-bg) 75%, transparent); }
+    .pill[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: var(--shadow-lg); }
+    .pill[aria-pressed="true"]:hover { background: color-mix(in sRGB, var(--accent) 85%, #16286b); color: #fff; }
+    .activity-line { display: grid; grid-template-columns: 92px 84px 1fr auto; align-items: center; gap: 10px; padding: 10px 12px; margin: 6px 4px; background: var(--page); border-radius: var(--radius); box-shadow: 0 1px 4px rgba(0,0,0,0.06); transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+    html[data-theme="dark"] .activity-line{ box-shadow: 0 1px 8px rgba(0,0,0,0.45); }
     .activity-line[data-type="Paper"] { border-left: 4px solid var(--paper-ink); }
     .activity-line[data-type="Talk"]  { border-left: 4px solid var(--talk-ink); }
     .activity-line[data-type="Position"] { border-left: 4px solid var(--pos-ink); }
-    
-    .activity-line:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
-      background-color: var(--card-bg);
-    }
-    
+    .activity-line:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.1); background-color: var(--card-bg); }
     .act-date { color: var(--muted); font-size: 0.9rem; }
-    .act-type {
-      justify-self: start;
-      font-weight: 700;
-      font-size: 0.85rem;
-      padding: 0.2rem 0.45rem;
-      border-radius: 999px;
-      background: color-mix(in sRGB, var(--card-bg) 85%, transparent);
-    }
-    
+    .act-type { justify-self: start; font-weight: 700; font-size: 0.85rem; padding: 0.2rem 0.45rem; border-radius: 999px; background: color-mix(in sRGB, var(--card-bg) 85%, transparent); }
     .act-title { font-weight: 600; color: var(--accent-ink); font-size: 0.97rem; }
     .act-title a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; }
     .act-title a:hover { border-bottom-color: currentColor; }
-    
     .act-link { justify-self: end; font-weight: 700; color: var(--accent); text-decoration: none; }
     .act-link:hover { text-decoration: underline; }
-    
+
     @media (max-width:560px){
       .act-header, .activity-line{
         grid-template-columns: 80px 1fr;
@@ -379,61 +263,49 @@
 <body>
 
   <!-- Masthead -->
-  <header class="masthead">
+  <header class="masthead" role="banner">
     <div class="titleblock">
       <h1>Arsalan Hashemi, PhD</h1>
       <div class="subtitle">Computational Materials Scientist</div>
-      <div class="contact">
+      <div class="contact" aria-label="Contact links">
         Email: <a href="mailto:arsalan.hashemi@uef.fi">arsalan.hashemi@uef.fi</a> |
-        <a href="https://www.linkedin.com/in/arsalanhashemi">LinkedIn</a> |
-        <a href="https://github.com/sahashemip">GitHub</a> |
-        <a href="https://scholar.google.com/citations?user=4sGy5goAAAAJ&hl=en">Google Scholar</a> |
-        <a href="https://orcid.org/0000-0003-2699-5731">ORCiD</a> |
+        <a href="https://www.linkedin.com/in/arsalanhashemi" target="_blank" rel="noopener">LinkedIn</a> |
+        <a href="https://github.com/sahashemip" target="_blank" rel="noopener">GitHub</a> |
+        <a href="https://scholar.google.com/citations?user=4sGy5goAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a> |
+        <a href="https://orcid.org/0000-0003-2699-5731" target="_blank" rel="noopener">ORCiD</a> |
         <a href="cv.pdf" target="_blank" rel="noopener">CV (pdf)</a>
       </div>
     </div>
-    <img class="avatar" src="photo.JPG" alt="Portrait of Arsalan Hashemi" loading="lazy" decoding="async" />
+    <div class="actions">
+      <img class="avatar" src="photo.JPG" alt="Portrait of Arsalan Hashemi" loading="lazy" decoding="async" />
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" title="Toggle light/dark">
+        🌙 Theme
+      </button>
+    </div>
   </header>
 
-  <div class="rule"></div>
+  <div class="rule" role="separator" aria-hidden="true"></div>
 
   <!-- Bio -->
   <h2>Bio</h2>
   <section class="bio" aria-label="Professional Summary">
-    <p>Born by the Caspian Sea (Iran), I learned to read patterns in sand, wind and water.
-      I studied at home for my B.Sc., moved to Isfahan for my M.Sc., and then north to Finland, where Aalto became a compass.
-      Under the guidance of Dr. Arkady Krasheninnikov, Prof. Hannu-Pekka Komsa, Prof. Matti Puska, and Prof. Tapio Ala-Nissilä, I learned to listen to materials.
-      With Prof. Kari Laasonen, I traced the quiet chemistry of electrons and reactions. Under the guidance of Prof. Mikko Karttunen, I apply physics-informed chemistry (and vice versa) to materials-science challenges.</p>
+    <p>Born by the Caspian Sea (Iran), I learned to read patterns in sand, wind and water. I studied at home for my B.Sc., moved to Isfahan for my M.Sc., and then north to Finland, where Aalto became a compass. Under the guidance of Dr. Arkady Krasheninnikov, Prof. Hannu-Pekka Komsa, Prof. Matti Puska, and Prof. Tapio Ala-Nissilä, I learned to listen to materials. With Prof. Kari Laasonen, I traced the quiet chemistry of electrons and reactions. Under the guidance of Prof. Mikko Karttunen, I apply physics-informed chemistry (and vice versa) to materials-science challenges.</p>
     <p>What began as a hobby—machine learning, quantum mechanics, electronic-structure calculations, data and code—became my craft: building models that let matter speak, and turning whispers of theory into tools for energy, materials, and the small revolutions that begin inside a simulation.</p>
   </section>
 
   <!-- Research Experience -->
-  <section id="experience">
+  <section id="experience" aria-label="Research Highlights">
     <h2>Research Highlights</h2>
     <div class="research-grid">
 
       <!-- Card 1 -->
-      <div class="research-card">
-        <div class="marker"></div>
+      <article class="research-card">
+        <div class="marker" aria-hidden="true"></div>
         <h3>Machine Learning Data Analysis</h3>
-        <p style="text-align: justify;">
-          &#x25A0; Predicting organic molecule solubility with curated datasets and reproducible ML workflows.
-        </p>
+        <p style="text-align: justify;">■ Predicting organic molecule solubility with curated datasets and reproducible ML workflows.</p>
         <div class="subprojects" role="list" aria-label="Related repositories">
-          <a class="subproject" role="listitem"
-             href="https://github.com/sahashemip/ML4OrganicMoleculeSolubility"
-             target="_blank" rel="noopener"
-             aria-label="ML4OrganicMoleculeSolubility — GitHub repository">
-            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38
-                       0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13
-                       -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
-                       .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
-                       -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0
-                       c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15
-                       0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17
-                       0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/>
-            </svg>
+          <a class="subproject" role="listitem" href="https://github.com/sahashemip/ML4OrganicMoleculeSolubility" target="_blank" rel="noopener" aria-label="ML4OrganicMoleculeSolubility — GitHub repository">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13 -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66 .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15 -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0 c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17 0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/></svg>
             <span class="title">ML4OrganicMoleculeSolubility</span>
             <span class="spacer"></span>
             <span class="ext" aria-hidden="true">↗</span>
@@ -446,30 +318,16 @@
             <span class="badge">JupyterLab</span>
           </span>
         </div>
-      </div>
+      </article>
 
       <!-- Card 2 -->
-      <div class="research-card">
-        <div class="marker"></div>
+      <article class="research-card">
+        <div class="marker" aria-hidden="true"></div>
         <h3>Machine Learning Interatomic Potentials</h3>
-        <p style="text-align: justify;">
-          &#x25A0; A B-vacancy at the hBN/SiC interface forms interlayer bonds and anchors metals.
-        </p>
+        <p style="text-align: justify;">■ A B-vacancy at the hBN/SiC interface forms interlayer bonds and anchors metals.</p>
         <div class="subprojects" role="list" aria-label="Related repositories">
-          <a class="subproject" role="listitem"
-             href="https://github.com/sahashemip/cu-hbn-sic-ml-potential"
-             target="_blank" rel="noopener"
-             aria-label="Interlayer bonding and Cu adsorption — GitHub repository">
-            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38
-                       0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13
-                       -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
-                       .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
-                       -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0
-                       c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15
-                       0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17
-                       0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/>
-            </svg>
+          <a class="subproject" role="listitem" href="https://github.com/sahashemip/cu-hbn-sic-ml-potential" target="_blank" rel="noopener" aria-label="Interlayer bonding and Cu adsorption — GitHub repository">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13 -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66 .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15 -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0 c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17 0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/></svg>
             <span class="title">cu-hbn-sic-ml-potential</span>
             <span class="spacer"></span>
             <span class="ext" aria-hidden="true">↗</span>
@@ -481,267 +339,199 @@
             <span class="badge">Python scripting</span>
           </span>
         </div>
-      </div>
+      </article>
 
       <!-- Card 3 -->
-      <div class="research-card">
-        <div class="marker"></div>
+      <article class="research-card">
+        <div class="marker" aria-hidden="true"></div>
         <h3>Raman Spectroscopy</h3>
-        <p style="text-align: justify;">
-          &#x25A0; Angle-/polarization-dependent Raman intensity workflows and analysis for crystalline materials.
-        </p>
+        <p style="text-align: justify;">■ Angle-/polarization-dependent Raman intensity workflows and analysis for crystalline materials.</p>
         <div class="subprojects" role="list" aria-label="Related repositories">
-          <a class="subproject" role="listitem"
-             href="https://github.com/sahashemip/angle-dependent-Raman-intensity"
-             target="_blank" rel="noopener"
-             aria-label="angle-dependent-Raman-intensity — GitHub repository">
-            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38
-                       0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13
-                       -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
-                       .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
-                       -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0
-                       c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15
-                       0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17
-                       0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/>
-            </svg>
+          <a class="subproject" role="listitem" href="https://github.com/sahashemip/angle-dependent-Raman-intensity" target="_blank" rel="noopener" aria-label="angle-dependent-Raman-intensity — GitHub repository">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13 -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66 .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15 -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0 c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17 0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/></svg>
             <span class="title">angle-dependent-Raman-intensity</span>
             <span class="spacer"></span>
             <span class="ext" aria-hidden="true">↗</span>
           </a>
           <span class="tech-badges" style="display:flex; justify-content:center; flex-wrap:wrap;">
-            <span class="badge">Numpy</span>
+            <span class="badge">NumPy</span>
             <span class="badge">Matplotlib</span>
             <span class="badge">Python scripting</span>
           </span>
         </div>
-      </div>
+      </article>
 
       <!-- Card 4 -->
-      <div class="research-card">
-        <div class="marker"></div>
+      <article class="research-card">
+        <div class="marker" aria-hidden="true"></div>
         <h3>Photoluminescence Spectroscopy</h3>
-        <p style="text-align: justify;">
-          &#x25A0; Optical absorption &amp; PL analysis: preprocessing, baseline/peak fitting, and reproducible workflows.
-        </p>
+        <p style="text-align: justify;">■ Optical absorption &amp; PL analysis: preprocessing, baseline/peak fitting, and reproducible workflows.</p>
         <div class="subprojects" role="list" aria-label="Related repositories">
-          <a class="subproject" role="listitem"
-             href="https://github.com/sahashemip/optical-absorption-analysis"
-             target="_blank" rel="noopener"
-             aria-label="optical-absorption-analysis — GitHub repository">
-            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38
-                       0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13
-                       -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
-                       .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
-                       -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0
-                       c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15
-                       0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17
-                       0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/>
-            </svg>
+          <a class="subproject" role="listitem" href="https://github.com/sahashemip/optical-absorption-analysis" target="_blank" rel="noopener" aria-label="optical-absorption-analysis — GitHub repository">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .2a7.8 7.8 0 0 0-2.47 15.2c.39.07.53-.17.53-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.24-.48-.94-.82-1.13 -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66 .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15 -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.54 7.54 0 0 1 4 0 c1.52-1.03 2.19-.82 2.19-.82.45 1.1.17 1.92.09 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.74-3.65 3.94.29.25.54.73.54 1.47 0 1.06-.01 1.91-.01 2.17 0 .21.14.46.54.38A7.8 7.8 0 0 0 8 .2z"/></svg>
             <span class="title">optical-absorption-analysis</span>
             <span class="spacer"></span>
             <span class="ext" aria-hidden="true">↗</span>
           </a>
           <span class="tech-badges" style="display:flex; justify-content:center; flex-wrap:wrap;">
-            <span class="badge">Numpy</span>
+            <span class="badge">NumPy</span>
             <span class="badge">Matplotlib</span>
             <span class="badge">Python scripting</span>
           </span>
         </div>
-      </div>
+      </article>
 
     </div>
   </section>
 
-  <!-- Ongoing collaborations (static map with pins) -->
+  <!-- Networks (static map with pins) -->
   <h2>Networks</h2>
   <section class="collab-static" aria-label="Static map with collaboration pins">
     <img class="map" src="worldmap.jpg" alt="World map (equirectangular)" loading="lazy" decoding="async" />
     <div id="pins" aria-hidden="false"></div>
   </section>
 
+  <!-- Activities (filterable list) -->
+  <section class="activities" id="activities" aria-label="Recent Activities">
+    <h2>Activities</h2>
+
+    <div class="act-controls" role="toolbar" aria-label="Filter activities">
+      <button class="pill" data-filter="All" aria-pressed="true" type="button">All</button>
+      <button class="pill" data-filter="Paper" aria-pressed="false" type="button">Papers</button>
+      <button class="pill" data-filter="Talk" aria-pressed="false" type="button">Talks</button>
+      <button class="pill" data-filter="Position" aria-pressed="false" type="button">Positions</button>
+    </div>
+
+    <div class="rail-shell">
+      <div class="act-header" aria-hidden="true">
+        <div>Date</div><div>Type</div><div>Title</div><div>Link</div>
+      </div>
+      <div class="activities-rail" role="list" id="activitiesRail">
+        <!-- Sample items; replace with real ones as needed -->
+        <div class="activity-line" role="listitem" data-type="Paper">
+          <div class="act-date">2025-09</div>
+          <div class="act-type">Paper</div>
+          <div class="act-title"><a href="#" target="_blank" rel="noopener">Stabilization and Functionalization of hBN/SiC Heterostructures</a></div>
+          <a class="act-link" href="#" target="_blank" rel="noopener">PDF</a>
+        </div>
+        <div class="activity-line" role="listitem" data-type="Talk">
+          <div class="act-date">2025-07</div>
+          <div class="act-type">Talk</div>
+          <div class="act-title"><a href="#" target="_blank" rel="noopener">Angle-Resolved Raman Workflows</a></div>
+          <a class="act-link" href="#" target="_blank" rel="noopener">Slides</a>
+        </div>
+        <div class="activity-line" role="listitem" data-type="Position">
+          <div class="act-date">2025-04</div>
+          <div class="act-type">Position</div>
+          <div class="act-title"><a href="#" target="_blank" rel="noopener">Postdoc — University of Eastern Finland (UEF)</a></div>
+          <a class="act-link" href="#" target="_blank" rel="noopener">UEF</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================
+       JAVASCRIPT (modules)
+       ===================== -->
   <script>
-    /*
-     * Equirectangular positioning:
-     *   x% = (lon + 180) / 360 * 100
-     *   y% = (90  -  lat) / 180 * 100
-     * 'home:true' -> stronger double pulse.
-     * Cards (~4 cm) appear to the RIGHT of the pin if there's space, otherwise LEFT.
-     */
+  (function(){
+    'use strict';
 
+    /* ===== Utilities ===== */
+    const $  = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+    /* ===== Theme (Light/Dark) ===== */
+    function getSystemPref(){
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function getStoredTheme(){ try { return localStorage.getItem('theme'); } catch(_) { return null; } }
+    function storeTheme(t){ try { localStorage.setItem('theme', t); } catch(_){} }
+    function applyTheme(t){ document.documentElement.setAttribute('data-theme', t); $('#themeToggle')?.setAttribute('aria-pressed', String(t==='dark')); }
+    function toggleTheme(){ const now = document.documentElement.getAttribute('data-theme'); const next = now === 'dark' ? 'light' : 'dark'; applyTheme(next); storeTheme(next); }
+    function initTheme(){ const t = getStoredTheme() || getSystemPref(); applyTheme(t); $('#themeToggle')?.addEventListener('click', toggleTheme); }
+
+    /* ===== Activities Filter ===== */
+    function applyActivityFilter(type){
+      const rows = $$('.activity-line[role="listitem"]');
+      rows.forEach(r=>{ const match = (type === 'All') || (r.getAttribute('data-type') === type); r.style.display = match ? 'grid' : 'none'; });
+    }
+    function initActivitiesFilter(){
+      const pills = $$('.pill[data-filter]');
+      pills.forEach(p=>p.addEventListener('click', ()=>{
+        pills.forEach(x=>x.setAttribute('aria-pressed','false'));
+        p.setAttribute('aria-pressed','true');
+        applyActivityFilter(p.dataset.filter);
+      }));
+    }
+
+    /* ===== Map pins & cards ===== */
     const SITES = [
-      {
-        title: "Home — UEF, Joensuu",
-        desc:  "Lead: Dr. Arsalan Hashemi. Physics-informed chemistry and machine-learning workflows for energy and materials.",
-        lat: 62.6, lon: 29.8, cls: "c-fi", active: true, home: true
-      },
-      {
-        title: "Germany — Berlin",
-        desc:  "Collaborator: Dr. Hossein Vahid. Electrolyte modeling for developing water purification and desalination.",
-        lat: 52.5200, lon: 13.4050, cls: "c-de", active: true
-      },
-      {
-        title: "USA — Washington, DC",
-        desc:  "Collaborator: Prof. Jane Doe. Defects in 2D semiconductors; multiscale simulations bridging DFT and ML potentials.",
-        lat: 38.9072, lon:-77.0369, cls: "c-us", active: true
-      },
-      {
-        title: "UK — London",
-        desc:  "Collaborator: Dr. Sara Khan. Raman and photoluminescence workflows for layered materials under strain.",
-        lat: 51.5074, lon:-0.1278, cls: "c-uk", active: true
-      },
-
-      /* Extra examples (edit/replace later) */
-      {
-        title: "USA — Cambridge, MA",
-        desc:  "Collaborator: Dr. Alex Miller. Electrochemical CO₂ reduction: solvent effects, ion pairing, and reactive transport modeling.",
-        lat: 42.3736, lon:-71.1097, cls: "c-us", active: false
-      },
-      {
-        title: "China — Shanghai",
-        desc:  "Collaborator: Dr. Li Chen. Battery electrolytes: data curation, surrogate models, and uncertainty quantification.",
-        lat: 31.2304, lon:121.4737, cls: "c-cn", active: false
-      }
+      { title: 'Home — UEF, Joensuu', desc: 'Lead: Dr. Arsalan Hashemi. Physics-informed chemistry and machine-learning workflows for energy and materials.', lat: 62.6, lon: 29.8, cls: 'c-fi', active: true, home: true },
+      { title: 'Germany — Berlin', desc: 'Collaborator: Dr. Hossein Vahid. Electrolyte modeling for developing water purification and desalination.', lat: 52.5200, lon: 13.4050, cls: 'c-de', active: true },
+      { title: 'USA — Washington, DC', desc: 'Collaborator: Prof. Jane Doe. Defects in 2D semiconductors; multiscale simulations bridging DFT and ML potentials.', lat: 38.9072, lon: -77.0369, cls: 'c-us', active: true },
+      { title: 'UK — London', desc: 'Collaborator: Dr. Sara Khan. Raman and photoluminescence workflows for layered materials under strain.', lat: 51.5074, lon: -0.1278, cls: 'c-uk', active: true },
+      { title: 'USA — Cambridge, MA', desc: 'Collaborator: Dr. Alex Miller. Electrochemical CO₂ reduction: solvent effects, ion pairing, and reactive transport modeling.', lat: 42.3736, lon: -71.1097, cls: 'c-us', active: false },
+      { title: 'China — Shanghai', desc: 'Collaborator: Dr. Li Chen. Battery electrolytes: data curation, surrogate models, and uncertainty quantification.', lat: 31.2304, lon: 121.4737, cls: 'c-cn', active: false }
     ];
 
-    function truncateWords(str, max){
-      const words = (str || "").trim().split(/\s+/);
-      return words.length <= max ? str : words.slice(0, max).join(" ") + "…";
+    const MODELS = []; // {pin, card, xPct, yPct}
+    function equirectToPct(lon, lat){
+      return { xPct: ((lon + 180) / 360) * 100, yPct: ((90 - lat) / 180) * 100 };
     }
-
-    const MODELS = []; // {pin, card, xPct, yPct, active}
-
-    function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+    function truncateWords(str, max){ const words = (str || '').trim().split(/\s+/); return words.length <= max ? str : words.slice(0, max).join(' ') + '…'; }
 
     function layoutCards(){
-      const container = document.querySelector('.collab-static');
-      const cw = container.clientWidth;
-      const ch = container.clientHeight;
-      const pad = 8;       // breathing room inside the map
-      const gap = 12;      // distance from pin to card
-
-      MODELS.forEach(({pin, card, xPct, yPct}) => {
-        // Pin center in px
-        const centerX = cw * (xPct / 100);
-        const centerY = ch * (yPct / 100);
-
-        // Use current measured size (works with visibility:hidden)
-        const w = Math.min(card.offsetWidth || 150, cw - 2*pad);
-        const h = Math.min(card.offsetHeight || 90, ch - 2*pad);
-
-        // Prefer RIGHT side
-        let left = centerX + gap;
-        let placeRight = true;
-        if (left + w + pad > cw) {
-          left = centerX - gap - w;
-          placeRight = false;
-        }
-        // Clamp horizontally just in case
-        left = clamp(left, pad, cw - w - pad);
-
-        // Vertical center; clamp inside
-        let top = centerY - h/2;
-        top = clamp(top, pad, ch - h - pad);
-
-        // Apply
-        card.style.left = left + 'px';
-        card.style.top  = top + 'px';
-        card.classList.toggle('place-right', placeRight);
-        card.classList.toggle('place-left', !placeRight);
+      const container = $('.collab-static'); if(!container) return;
+      const cw = container.clientWidth; const ch = container.clientHeight; const pad = 8; const gap = 12;
+      MODELS.forEach(({card, xPct, yPct}) => {
+        const centerX = cw * (xPct / 100); const centerY = ch * (yPct / 100);
+        const w = Math.min(card.offsetWidth || 150, cw - 2*pad); const h = Math.min(card.offsetHeight || 90, ch - 2*pad);
+        let left = centerX + gap; let placeRight = true; if (left + w + pad > cw) { left = centerX - gap - w; placeRight = false; }
+        left = clamp(left, pad, cw - w - pad); let top = clamp(centerY - h/2, pad, ch - h - pad);
+        card.style.left = left + 'px'; card.style.top = top + 'px'; card.classList.toggle('place-right', placeRight); card.classList.toggle('place-left', !placeRight);
       });
     }
 
-    (function placePins(){
-      const mount = document.getElementById("pins");
-      mount.innerHTML = "";
-      MODELS.length = 0;
-
+    function buildPins(){
+      const mount = $('#pins'); if(!mount) return; mount.innerHTML = ''; MODELS.length = 0;
       SITES.forEach(s => {
-        const xPct = ((s.lon + 180) / 360) * 100;  // % from left
-        const yPct = ((90  -  s.lat) / 180) * 100; // % from top
-
-        // --- Pin (dot + pulses + stem)
-        const pin = document.createElement("div");
-        pin.className = `pin ${s.cls || ""} ${s.active === false ? "inactive" : ""} ${s.home ? "home" : ""}`;
-        pin.style.left = xPct + "%";
-        pin.style.top  = yPct + "%";
-        pin.setAttribute("tabindex", "0");
-        pin.setAttribute("aria-label", s.title || s.desc || "collaborator");
-
-        const stem  = document.createElement("div"); stem.className  = "stem";
-        const ring  = document.createElement("div"); ring.className  = "ring";
-        const dot   = document.createElement("div"); dot.className   = "dot";
+        const { xPct, yPct } = equirectToPct(s.lon, s.lat);
+        const pin = document.createElement('div');
+        pin.className = `pin ${s.cls || ''} ${s.active === false ? 'inactive' : ''} ${s.home ? 'home' : ''}`;
+        pin.style.left = xPct + '%'; pin.style.top = yPct + '%'; pin.tabIndex = 0; pin.setAttribute('aria-label', s.title || s.desc || 'collaborator');
+        const stem = document.createElement('div'); stem.className = 'stem';
+        const ring = document.createElement('div'); ring.className = 'ring';
+        const dot  = document.createElement('div'); dot.className  = 'dot';
         pin.append(stem, ring, dot);
-        if (s.home){
-          const ring2 = document.createElement("div"); ring2.className = "ring2";
-          pin.append(ring2);
-        }
+        if (s.home){ const ring2 = document.createElement('div'); ring2.className = 'ring2'; pin.append(ring2); }
         mount.appendChild(pin);
 
-        // --- Collab card (sibling inside #pins; positioned in px)
-        const card  = document.createElement("div");
-        card.className = `collab-card ${s.active === false ? "inactive" : ""}`;
-        const caret = document.createElement("div"); caret.className = "collab-caret";
-        const title = document.createElement("div"); title.className = "card-title"; title.textContent = s.title || "";
-        const body  = document.createElement("div"); body.className  = "card-body";  body.textContent  = truncateWords(s.desc || "", 30);
-        card.append(title, body, caret);
-        mount.appendChild(card);
+        const card  = document.createElement('div'); card.className = `collab-card ${s.active === false ? 'inactive' : ''}`;
+        const caret = document.createElement('div'); caret.className = 'collab-caret';
+        const title = document.createElement('div'); title.className = 'card-title'; title.textContent = s.title || '';
+        const body  = document.createElement('div'); body.className  = 'card-body';  body.textContent  = truncateWords(s.desc || '', 30);
+        card.append(title, body, caret); mount.appendChild(card);
 
-        // Hover/focus/tap behavior
         const open = () => card.classList.add('open');
         const close = () => card.classList.remove('open');
-        pin.addEventListener('mouseenter', open);
-        pin.addEventListener('mouseleave', close);
-        card.addEventListener('mouseenter', open);
-        card.addEventListener('mouseleave', close);
+        pin.addEventListener('mouseenter', open); pin.addEventListener('mouseleave', close);
+        card.addEventListener('mouseenter', open); card.addEventListener('mouseleave', close);
         pin.addEventListener('click', () => card.classList.toggle('open'));
-        pin.addEventListener('keydown', (e) => {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.classList.toggle('open'); }
-          if (e.key === "Escape") { close(); }
-        });
+        pin.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.classList.toggle('open'); } if (e.key === 'Escape') { close(); } });
 
-        MODELS.push({pin, card, xPct, yPct});
+        MODELS.push({ pin, card, xPct, yPct });
       });
 
-      // After DOM is ready / image loaded, compute card positions
-      const img = document.querySelector('.collab-static img.map');
-      if (img && !img.complete){
-        img.addEventListener('load', layoutCards, { once:true });
-      } else {
-        layoutCards();
-      }
-    })();
+      const img = $('.collab-static img.map');
+      if (img && !img.complete){ img.addEventListener('load', layoutCards, { once:true }); } else { layoutCards(); }
+    }
 
-    // Recompute on resize/orientation changes
-    window.addEventListener('resize', layoutCards);
+    /* ===== Init ===== */
+    function init(){ initTheme(); initActivitiesFilter(); buildPins(); window.addEventListener('resize', layoutCards); }
+    document.addEventListener('DOMContentLoaded', init);
+  })();
   </script>
-
-  <!-- Theme toggle + Activities filter -->
-  <script>
-    (function(){
-
-      /* Activities filter */
-      const pills = document.querySelectorAll('.pill[data-filter]');
-      const rows = document.querySelectorAll('.activity-line[role="listitem"]');
-
-      function applyFilter(type){
-        rows.forEach(r=>{
-          const match = (type === 'All') || (r.getAttribute('data-type') === type);
-          r.style.display = match ? 'grid' : 'none';
-        });
-      }
-
-      pills.forEach(p=>{
-        p.addEventListener('click', ()=>{
-          pills.forEach(x=>x.setAttribute('aria-pressed','false'));
-          p.setAttribute('aria-pressed','true');
-          applyFilter(p.dataset.filter);
-        });
-      });
-    })();
-  </script>
-
-
 </body>
 </html>
