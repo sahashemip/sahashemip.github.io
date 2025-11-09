@@ -174,13 +174,14 @@
       list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;
     }
     .collab-list li{
-      display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px;
-      background:var(--card-bg); border:1px solid #e0e5ff; box-shadow:var(--shadow); cursor:pointer;
-      user-select:none;
+      display:flex; align-items:center; gap:6px;padding:4px 8px;font-size:0.88rem;border-radius:10px;
+      background:var(--card-bg);border:1px solid #e0e5ff;box-shadow:var(--shadow);cursor:pointer;user-select:none;
     }
     html[data-theme="dark"] .collab-list li{ border-color:#354157; }
     .collab-list li:hover{ box-shadow:var(--shadow-lg); transform:translateY(-1px); }
     .cdot{ width:10px; height:10px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15); }
+    .cdot{ width:8px; height:8px; }
+    .collab-list{ gap:6px; }
     .cdot.c-de{ background:var(--c-de); } .cdot.c-uk{ background:var(--c-uk);} .cdot.c-fi{ background:var(--c-fi);} .cdot.c-es{ background:var(--c-es);} .cdot.c-hu{ background:var(--c-hu);}
 
     /* --- Static map + pins --- */
