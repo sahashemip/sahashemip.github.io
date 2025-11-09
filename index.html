@@ -216,8 +216,8 @@
       position:absolute; width:3.9cm; max-width: min(3.9cm, calc(100% - 24px)); background:var(--page); border:1px solid #e6e6e6; border-radius:10px; box-shadow:0 6px 22px rgba(0,0,0,.14); padding:.55rem .65rem .65rem; opacity:0; visibility:hidden; transition:opacity .18s ease, visibility .18s ease; z-index:10; pointer-events:auto; }
     html[data-theme="dark"] .collab-card{ border-color:#263244; box-shadow:0 10px 28px rgba(0,0,0,.6); }
     .collab-card.open{ opacity:1; visibility:visible; }
-    .collab-card .card-title{ font-weight:700; font-size:.9rem; margin:0 0 .2rem; color:var(--accent-ink); }
-    .collab-card .card-body{ font-size:.85rem; color:var(--ink); line-height:1.35; word-wrap:break-word; }
+    .collab-card .card-title{ font-weight:400; font-size:.81rem; margin:0 0 .2rem; color:var(--accent-ink); }
+    .collab-card .card-body{ font-size:.78rem; color:var(--ink); line-height:1.35; word-wrap:break-word; }
     .collab-caret{ position:absolute; top:50%; transform:translateY(-50%); width:0; height:0; filter:drop-shadow(0 1px 0 rgba(0,0,0,.08)); }
     .collab-card.place-right .collab-caret{ left:-8px; border:8px solid transparent; border-right-color:var(--page); }
     .collab-card.place-left  .collab-caret{ right:-8px; border:8px solid transparent; border-left-color:var(--page); }
@@ -312,7 +312,7 @@
   <!-- Bio -->
   <h2>About Me</h2>
   <section class="bio" aria-label="Professional Summary">
-    <p>Born by the Caspian Sea (Iran), I learned to read patterns in sand, wind and water. I studied at home for my B.Sc., moved to Isfahan for my M.Sc., and then north to Finland, Aalto University. Under the guidance of Dr. Arkady Krasheninnikov, Prof. Hannu-Pekka Komsa, Prof. Matti Puska, and Prof. Tapio Ala-Nissilä, I learned to investigate physics of materials.
+    <p style="text-align: justify;">Born by the Caspian Sea (Iran), I learned to read patterns in sand, wind and water. I studied at home for my B.Sc., moved to Isfahan for my M.Sc., and then north to Finland, Aalto University. Under the guidance of Dr. Arkady Krasheninnikov, Prof. Hannu-Pekka Komsa, Prof. Matti Puska, and Prof. Tapio Ala-Nissilä, I learned to investigate physics of materials.
       With Prof. Kari Laasonen, I traced the chemistry of electron transfers and reactions.
       As a postdoctoral researcher in computational materials science at the University of Eastern Finland under Prof. Mikko Karttunen, I tackle materials science challenges at the physics-chemistry interface.</p>
     <p>What began as a hobby—machine learning, quantum mechanics, electronic-structure calculations, data and code—became my craft: building models that let matter speak, and turning whispers of theory into tools for energy, materials, and the small revolutions that begin inside a simulation.</p>
@@ -508,22 +508,22 @@
       { person: 'Arsalan Hashemi', title: 'Home — UEF, Joensuu, Finland', desc: 'University of Eastern Finland', lat: 62.60, lon: 29.80, cls: 'c-fi', home: true, active: true },
 
       // 1) Dr. Mahdi Ghorbani Asl — HZDR (Dresden, Germany)
-      { person: 'Dr. Mahdi Ghorbani Asl', title: 'Helmholtz-Zentrum Dresden-Rossendorf', desc: '', lat: 51.05, lon: 13.74, cls: 'c-de', active: true },
+      { person: 'Dr. Mahdi Ghorbani Asl', title: 'Helmholtz-Zentrum Dresden-Rossendorf', desc: '', lat: 51.05, lon: 13.74, cls: 'c-de', active: true},
 
       // 2) Dr. Hossein Vahid — Leibniz Institute of Polymer Research Dresden (Germany)
-      { person: 'Dr. Hossein Vahid', title: 'Leibniz Institute of Polymer Research Dresden', desc: '', lat: 51.05, lon: 13.74, cls: 'c-de', active: true },
+      { person: 'Dr. Hossein Vahid', title: 'Leibniz Institute of Polymer Research Dresden', desc: '', lat: 51.05, lon: 13.74, cls: 'c-de', active: true},
 
       // 3) Mr. Nima Ghafari Cherati — Budapest University of Technology and Economics (Hungary)
       { person: 'Mr. Nima Ghafari Cherati', title: 'Budapest University of Technology and Economics', desc: '', lat: 47.48, lon: 19.05, cls: 'c-hu', active: true },
 
       // 4) Dr. Sadegh Ghaderzadeh — University of Nottingham (UK)
-      { person: 'Dr. Sadegh Ghaderzadeh', title: 'University of Nottingham', desc: '', lat: 52.94, lon: -1.19, cls: 'c-uk', active: true },
+      { person: 'Dr. Sadegh Ghaderzadeh', title: 'University of Nottingham', desc: '', lat: 52.94, lon: -1.19, cls: 'c-uk', active: true},
 
       // 5) Dr. Cristina Flox — Cáceres, Spain (address provided)
       { person: 'Dr. Cristina Flox', title: 'Centro Ibérico de Investigación en Almacenamiento Energético', desc: '', lat: 39.47, lon: -6.37, cls: 'c-es', active: true },
 
       // 6) Dr. Xiaoya Chang / Dr. Reza Khakpour — Aalto University (Espoo, Finland)
-      { person: 'Dr. Xiaoya Chang / Dr. Reza Khakpour', title: 'Aalto University', desc: '', lat: 60.19, lon: 24.83, cls: 'c-fi', active: true }
+      { person: 'Dr. Xiaoya Chang / Dr. Reza Khakpour', title: 'Aalto University', desc: '', lat: 60.19, lon: 24.83, cls: 'c-fi', active: true}
     ];
 
     /* ===== Build pins/cards ===== */
