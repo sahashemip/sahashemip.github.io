@@ -31,7 +31,7 @@
       --badge-text:#ffffff;
       --badge-ring:rgba(124,58,237,.35);
       --badge-font:0.8rem;
-      --collab-scale:.75;            /* 75% width for the map section */
+      --collab-scale:1;
 
       /* cards & activities */
       --radius:12px;
@@ -44,10 +44,10 @@
 
       /* map pin colors */
       --c-de:#0ea5e9; /* Germany */
-      --c-us:#22c55e; /* USA */
-      --c-cn:#f59e0b; /* China */
       --c-uk:#ef4444; /* UK */
       --c-fi:#0b6a0b; /* Finland */
+      --c-es:#f97316; /* Spain */
+      --c-hu:#22c55e; /* Hungary */
     }
 
     /* DARK THEME OVERRIDES */
@@ -68,7 +68,11 @@
       --paper-ink:#60a5fa;
       --talk-ink:#f87171;
       --pos-ink:#4ade80;
-      --c-de:#38bdf8; --c-us:#86efac; --c-cn:#fbbf24; --c-uk:#fca5a5; --c-fi:#5bd977;
+      --c-de:#38bdf8; 
+      --c-uk:#fca5a5; 
+      --c-fi:#5bd977;
+      --c-es:#fdba74;
+      --c-hu:#86efac;
     }
 
     html, body { direction:ltr; text-align:left; }
@@ -159,14 +163,32 @@
     .subproject .spacer{ flex:1 1 auto; }
     .subproject .ext{ opacity:.6 }
 
-    /* --- Ongoing collaborations: static map + pins --- */
+    /* --- Ongoing collaborations layout: LEFT list + RIGHT map --- */
+    .networks-grid{
+      display:grid; grid-template-columns: minmax(180px, 260px) 1fr; gap:16px; align-items:start;
+    }
+    @media (max-width: 720px){
+      .networks-grid{ grid-template-columns: 1fr; }
+    }
+    .collab-list{
+      list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;
+    }
+    .collab-list li{
+      display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px;
+      background:var(--card-bg); border:1px solid #e0e5ff; box-shadow:var(--shadow); cursor:pointer;
+      user-select:none;
+    }
+    html[data-theme="dark"] .collab-list li{ border-color:#354157; }
+    .collab-list li:hover{ box-shadow:var(--shadow-lg); transform:translateY(-1px); }
+    .cdot{ width:10px; height:10px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.15); }
+    .cdot.c-de{ background:var(--c-de); } .cdot.c-uk{ background:var(--c-uk);} .cdot.c-fi{ background:var(--c-fi);} .cdot.c-es{ background:var(--c-es);} .cdot.c-hu{ background:var(--c-hu);}
+
+    /* --- Static map + pins --- */
     .collab-static{
       position:relative; border:1px solid color-mix(in sRGB, var(--accent) 15%, transparent); border-radius:12px; overflow:hidden;
       box-shadow:var(--shadow); background:var(--page);
-      width:calc(100% * var(--collab-scale)); margin:.6rem auto;
+      width:100%; margin:.6rem auto;
     }
-    @media (max-width:560px){ .collab-static{ width:100%; } }
-
     .collab-static img.map{ width:100%; height:auto; display:block; background:linear-gradient(180deg,color-mix(in sRGB, var(--accent) 6%, transparent),transparent); }
     .collab-static #pins{ position:absolute; inset:0; pointer-events:auto; z-index:2; }
 
@@ -181,14 +203,14 @@
     .pin .ring2{ position:absolute; left:50%; bottom: calc(var(--stem-h) - (var(--ring2-size) / 2)); transform: translateX(-50%); width:var(--ring2-size); height:var(--ring2-size); border-radius:50%; border:2px solid currentColor; opacity:.7; animation:pingStrong 1.6s .25s ease-out infinite; z-index:1; }
 
     .pin.home{ --stem-h: 16px; --dot-size: 12px; --ring-size: 28px; --ring2-size: 38px; color:var(--c-fi); }
-    .pin.c-de{ color:var(--c-de); } .pin.c-us{ color:var(--c-us);} .pin.c-cn{ color:var(--c-cn);} .pin.c-uk{ color:var(--c-uk);} 
+    .pin.c-de{ color:var(--c-de); } .pin.c-uk{ color:var(--c-uk);} .pin.c-fi{ color:var(--c-fi);} .pin.c-es{ color:var(--c-es);} .pin.c-hu{ color:var(--c-hu);} 
     .pin.home .dot{ box-shadow:0 0 0 2px #fff inset, 0 0 0 1px rgba(0,0,0,.2), 0 0 8px rgba(0,100,0,.35); }
     .pin:hover .ring{ animation-duration:1.05s; }
 
     @keyframes ping{ 0% { transform:translateX(-50%) scale(.2); opacity:.85; } 70%{ transform:translateX(-50%) scale(1.5); opacity:0; } 100%{ transform:translateX(-50%) scale(1.6); opacity:0; } }
     @keyframes pingStrong{ 0% { transform:translateX(-50%) scale(.22); opacity:.95; } 65%{ transform:translateX(-50%) scale(1.8); opacity:0; } 100%{ transform:translateX(-50%) scale(1.9); opacity:0; } }
 
-    /* ==== COLLAB CARDS (≈4 cm) ==== */
+    /* ==== COLLAB CARDS ==== */
     .collab-card{
       position:absolute; width:3.9cm; max-width: min(3.9cm, calc(100% - 24px)); background:var(--page); border:1px solid #e6e6e6; border-radius:10px; box-shadow:0 6px 22px rgba(0,0,0,.14); padding:.55rem .65rem .65rem; opacity:0; visibility:hidden; transition:opacity .18s ease, visibility .18s ease; z-index:10; pointer-events:auto; }
     html[data-theme="dark"] .collab-card{ border-color:#263244; box-shadow:0 10px 28px rgba(0,0,0,.6); }
@@ -213,7 +235,7 @@
       .masthead{ grid-template-columns:1fr auto; gap:14pt; }
       .avatar{ width:124px; height:124px; }
       .rule{ margin:.3rem 0 .7rem; }
-      .theme-toggle, .collab-static{ display:none !important; }
+      .theme-toggle, .networks-grid{ display:none !important; }
     }
 
     /* =====================
@@ -387,12 +409,18 @@
     </div>
   </section>
 
-  <!-- Networks (static map with pins) -->
+  <!-- Networks -->
   <h2>Networks</h2>
-  <section class="collab-static" aria-label="Static map with collaboration pins">
-    <img class="map" src="worldmap.jpg" alt="World map (equirectangular)" loading="lazy" decoding="async" />
-    <div id="pins" aria-hidden="false"></div>
-  </section>
+  <div class="networks-grid" id="networksGrid" aria-label="Collaborator map and list">
+    <!-- LEFT: Names -->
+    <ul class="collab-list" id="collabList" aria-label="Collaborators (click to highlight)"></ul>
+
+    <!-- RIGHT: Static map with pins -->
+    <section class="collab-static" aria-label="Static map with collaboration pins">
+      <img class="map" src="worldmap.jpg" alt="World map (equirectangular)" loading="lazy" decoding="async" />
+      <div id="pins" aria-hidden="false"></div>
+    </section>
+  </div>
 
   <!-- Activities (filterable list) -->
   <section class="activities" id="activities" aria-label="Recent Activities">
@@ -443,9 +471,7 @@
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
     /* ===== Theme (Light/Dark) ===== */
-    function getSystemPref(){
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
+    function getSystemPref(){ return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
     function getStoredTheme(){ try { return localStorage.getItem('theme'); } catch(_) { return null; } }
     function storeTheme(t){ try { localStorage.setItem('theme', t); } catch(_){} }
     function applyTheme(t){ document.documentElement.setAttribute('data-theme', t); $('#themeToggle')?.setAttribute('aria-pressed', String(t==='dark')); }
@@ -466,22 +492,40 @@
       }));
     }
 
-    /* ===== Map pins & cards ===== */
-    const SITES = [
-      { title: 'Home — UEF, Joensuu', desc: 'Lead: Dr. Arsalan Hashemi. Physics-informed chemistry and machine-learning workflows for energy and materials.', lat: 62.6, lon: 29.8, cls: 'c-fi', active: true, home: true },
-      { title: 'Germany — Berlin', desc: 'Collaborator: Dr. Hossein Vahid. Electrolyte modeling for developing water purification and desalination.', lat: 52.5200, lon: 13.4050, cls: 'c-de', active: true },
-      { title: 'USA — Washington, DC', desc: 'Collaborator: Prof. Jane Doe. Defects in 2D semiconductors; multiscale simulations bridging DFT and ML potentials.', lat: 38.9072, lon: -77.0369, cls: 'c-us', active: true },
-      { title: 'UK — London', desc: 'Collaborator: Dr. Sara Khan. Raman and photoluminescence workflows for layered materials under strain.', lat: 51.5074, lon: -0.1278, cls: 'c-uk', active: true },
-      { title: 'USA — Cambridge, MA', desc: 'Collaborator: Dr. Alex Miller. Electrochemical CO₂ reduction: solvent effects, ion pairing, and reactive transport modeling.', lat: 42.3736, lon: -71.1097, cls: 'c-us', active: false },
-      { title: 'China — Shanghai', desc: 'Collaborator: Dr. Li Chen. Battery electrolytes: data curation, surrogate models, and uncertainty quantification.', lat: 31.2304, lon: 121.4737, cls: 'c-cn', active: false }
-    ];
-
+    /* ===== Map data (your collaborators) ===== */
+    // Helper: convert lon/lat to % coords on equirectangular map
     const MODELS = []; // {pin, card, xPct, yPct}
     function equirectToPct(lon, lat){
       return { xPct: ((lon + 180) / 360) * 100, yPct: ((90 - lat) / 180) * 100 };
     }
     function truncateWords(str, max){ const words = (str || '').trim().split(/\s+/); return words.length <= max ? str : words.slice(0, max).join(' ') + '…'; }
+    function closeAllCards(){ MODELS.forEach(m => m.card.classList.remove('open')); }
 
+    // Your home + six collaborators (coords ~city-level)
+    const SITES = [
+      // Home (keep as-is)
+      { person: 'Arsalan Hashemi', title: 'Home — UEF, Joensuu, Finland', desc: 'University of Eastern Finland (UEF) — Joensuu Campus.', lat: 62.60, lon: 29.80, cls: 'c-fi', home: true, active: true },
+
+      // 1) Dr. Mahdi Ghorbani Asl — HZDR (Dresden, Germany)
+      { person: 'Dr. Mahdi Ghorbani Asl', title: 'Helmholtz-Zentrum Dresden-Rossendorf (HZDR)', desc: 'Dresden-Rossendorf, Saxony, Germany.', lat: 51.05, lon: 13.74, cls: 'c-de', active: true },
+
+      // 2) Dr. Hossein Vahid — Leibniz Institute of Polymer Research Dresden (Germany)
+      { person: 'Dr. Hossein Vahid', title: 'Leibniz Institute of Polymer Research Dresden (IPF)', desc: 'Dresden, Saxony, Germany.', lat: 51.05, lon: 13.74, cls: 'c-de', active: true },
+
+      // 3) Mr. Nima Ghafari Cherati — Budapest University of Technology and Economics (Hungary)
+      { person: 'Mr. Nima Ghafari Cherati', title: 'Budapest University of Technology and Economics', desc: 'Budapest, Hungary.', lat: 47.48, lon: 19.05, cls: 'c-hu', active: true },
+
+      // 4) Dr. Sadegh Ghaderzadeh — University of Nottingham (UK)
+      { person: 'Dr. Sadegh Ghaderzadeh', title: 'University of Nottingham', desc: 'Nottingham, United Kingdom.', lat: 52.94, lon: -1.19, cls: 'c-uk', active: true },
+
+      // 5) Dr. Cristina Flox — Cáceres, Spain (address provided)
+      { person: 'Dr. Cristina Flox', title: 'Polígono 13, Parcela 31, "El Cuartillo"', desc: '10004 Cáceres, Spain.', lat: 39.47, lon: -6.37, cls: 'c-es', active: true },
+
+      // 6) Xiaoya Chang — Aalto University (Espoo, Finland)
+      { person: 'Xiaoya Chang', title: 'Aalto University', desc: 'Otaniemi, Espoo, Finland.', lat: 60.19, lon: 24.83, cls: 'c-fi', active: true }
+    ];
+
+    /* ===== Build pins/cards ===== */
     function layoutCards(){
       const container = $('.collab-static'); if(!container) return;
       const cw = container.clientWidth; const ch = container.clientHeight; const pad = 8; const gap = 12;
@@ -510,16 +554,16 @@
 
         const card  = document.createElement('div'); card.className = `collab-card ${s.active === false ? 'inactive' : ''}`;
         const caret = document.createElement('div'); caret.className = 'collab-caret';
-        const title = document.createElement('div'); title.className = 'card-title'; title.textContent = s.title || '';
+        const title = document.createElement('div'); title.className = 'card-title'; title.textContent = s.person ? `${s.person} — ${s.title}` : (s.title || '');
         const body  = document.createElement('div'); body.className  = 'card-body';  body.textContent  = truncateWords(s.desc || '', 30);
         card.append(title, body, caret); mount.appendChild(card);
 
-        const open = () => card.classList.add('open');
+        const open = () => { closeAllCards(); card.classList.add('open'); };
         const close = () => card.classList.remove('open');
         pin.addEventListener('mouseenter', open); pin.addEventListener('mouseleave', close);
         card.addEventListener('mouseenter', open); card.addEventListener('mouseleave', close);
         pin.addEventListener('click', () => card.classList.toggle('open'));
-        pin.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.classList.toggle('open'); } if (e.key === 'Escape') { close(); } });
+        pin.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } if (e.key === 'Escape') { close(); } });
 
         MODELS.push({ pin, card, xPct, yPct });
       });
@@ -528,8 +572,39 @@
       if (img && !img.complete){ img.addEventListener('load', layoutCards, { once:true }); } else { layoutCards(); }
     }
 
+    /* ===== Build left name list and hook to pins ===== */
+    function buildList(){
+      const ul = $('#collabList'); if(!ul) return; ul.innerHTML = '';
+      // skip 'home' in the list
+      SITES.forEach((s, idx) => {
+        if (s.home) return;
+        const li = document.createElement('li');
+        li.setAttribute('role','button');
+        li.setAttribute('aria-label', `${s.person}`);
+        const dot = document.createElement('span'); dot.className = `cdot ${s.cls}`;
+        const text = document.createElement('span'); text.textContent = s.person;
+        li.append(dot, text);
+        li.addEventListener('click', () => {
+          // open the corresponding card (account for home at index 0)
+          const model = MODELS[idx]; // indices match because pins are built in same order
+          if (!model) return;
+          closeAllCards();
+          model.card.classList.add('open');
+          // brief focus highlight
+          model.pin.focus?.();
+        });
+        ul.appendChild(li);
+      });
+    }
+
     /* ===== Init ===== */
-    function init(){ initTheme(); initActivitiesFilter(); buildPins(); window.addEventListener('resize', layoutCards); }
+    function init(){ 
+      initTheme(); 
+      initActivitiesFilter(); 
+      buildPins(); 
+      buildList();
+      window.addEventListener('resize', layoutCards); 
+    }
     document.addEventListener('DOMContentLoaded', init);
   })();
   </script>
